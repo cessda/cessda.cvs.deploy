@@ -2,6 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: SERVICENAME
+  namespace: NAMESPACE
 spec:
   selector:
     app: SERVICENAME
@@ -18,6 +19,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: persistence
+  namespace: NAMESPACE
 spec:
   selector:
     app: SERVICENAME
