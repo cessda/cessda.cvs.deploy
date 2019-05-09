@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: DEPLOYMENTNAME-config
+  namespace: NAMESPACE
+data:
+  elasticsearch.yml: |
+    cluster:
+      name: ${CLUSTER_NAME}
+    network.host: ${NETWORK_HOST}
+    http:
+      enabled: true
+      compression: true
+      cors:
+        enabled: ${HTTP_CORS_ENABLE}
+        allow-origin: ${HTTP_CORS_ALLOW_ORIGIN}
+    discovery:
+      zen:
+        minimum_master_nodes: ${NUMBER_OF_MASTERS}
+        ping.unicast.hosts: ${DISCOVERY_SERVICE}
