@@ -4,6 +4,7 @@ metadata:
   name: SERVICENAME
   namespace: NAMESPACE
 spec:
+  clusterIP: None
   ports:
   - name: mysql-proxy
     protocol: TCP
@@ -28,6 +29,7 @@ metadata:
   name: persistence
   namespace: NAMESPACE
 spec:
+  clusterIP: None
   ports:
   - name: mysql-proxy
     protocol: TCP
