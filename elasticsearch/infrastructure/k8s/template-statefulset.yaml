@@ -32,7 +32,7 @@ spec:
         - name: bootstrap.memory_lock
           value: "true"
         - name: CLUSTER_NAME
-          value: DEPLOYMENTNAME
+          value: elasticsearch
         - name: NUMBER_OF_MASTERS
           value: "2"
         - name: DISCOVERY_SERVICE
