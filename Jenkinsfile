@@ -3,7 +3,7 @@ pipeline {
     parameters
     {
         string(name: 'gui_image_tag', defaultValue: "${docker_repo}/cvs-gui:master-latest", description: 'The version of the application to deploy, default is latest if unspecified')
-        choice choices: ['all', 'elasticsearch', 'gui'], description: 'Choose which module to build', name: 'module'
+        choice choices: ['all', 'elasticsearch', 'flatdb', 'gui', 'mysql'], description: 'Choose which module to build', name: 'module'
     }
 
     environment
