@@ -10,8 +10,10 @@ pipeline {
     {
         project_name = "cessda-dev"
         product_name = "cvs"
-		gui_module_name = "gui"
         es_module_name = "es"
+        flatdb_module_name = "flatdb"
+		gui_module_name = "gui"
+        mysql_module_name = "mysql"
         cluster = "development-cluster"
     }
 
