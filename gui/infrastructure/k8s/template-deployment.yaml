@@ -15,7 +15,7 @@ spec:
       containers:
       - name: DEPLOYMENTNAME
         image: IMAGETAG
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         env:
         - name: DC_ENV
           value: ENVIRONMENT
