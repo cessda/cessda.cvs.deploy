@@ -40,3 +40,5 @@ spec:
             memory: 2Gi
           limits:
             memory: 4Gi
+      nodeSelector:
+        cloud.google.com/gke-nodepool: himem-pool

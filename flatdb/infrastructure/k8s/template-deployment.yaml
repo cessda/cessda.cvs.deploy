@@ -32,3 +32,5 @@ spec:
             memory: 1Gi
           limits:
             memory: 2Gi
+      nodeSelector:
+        cloud.google.com/gke-nodepool : default-pool
