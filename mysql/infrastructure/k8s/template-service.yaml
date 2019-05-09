@@ -1,0 +1,30 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: SERVICENAME
+spec:
+  selector:
+    app: SERVICENAME
+  ports:
+  - name: mysql-proxy
+    protocol: TCP
+    port: 3306
+    targetPort: 3306
+  externalIPs:
+  - 172.19.209.3
+---
+#Workaround for flatdb
+kind: Service
+apiVersion: v1
+metadata:
+  name: persistence
+spec:
+  selector:
+    app: SERVICENAME
+  ports:
+  - name: mysql-proxy
+    protocol: TCP
+    port: 3306
+    targetPort: 3306
+  externalIPs:
+  - 172.19.209.3

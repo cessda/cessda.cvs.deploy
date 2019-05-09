@@ -1,0 +1,42 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: DEPLOYMENTNAME
+  labels:
+    app: DEPLOYMENTNAME
+  namespace: NAMESPACE
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: DEPLOYMENTNAME
+    spec:
+      containers:
+      - name: DEPLOYMENTNAME
+        image: IMAGETAG
+        imagePullPolicy: Always
+        env:
+        - name: DC_ENV
+          value: ENVIRONMENT
+        ports:
+        - containerPort: 8080
+          name: frontend-cport
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 300
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
+        resources:
+          requests:
+            cpu: 500m
+            memory: 2Gi
+          limits:
+            memory: 4Gi

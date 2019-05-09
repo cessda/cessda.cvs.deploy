@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: SERVICENAME
+  namespace: NAMESPACE
+spec:
+  type: ClusterIP
+  ports:
+  - name: frontend-webui
+    port: 80
+    targetPort: 8080
+    protocol: TCP
+  selector:
+    app: SERVICENAME

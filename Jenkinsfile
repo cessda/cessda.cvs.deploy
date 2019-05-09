@@ -9,7 +9,7 @@ pipeline {
     environment
     {
         project_name = "cessda-dev"
-        product_name = "eqb"
+        product_name = "cvs"
 		gui_module_name = "gui"
         es_module_name = "es"
         cluster = "development-cluster"
@@ -47,6 +47,26 @@ pipeline {
                 }
             }
         }
+        stage('Update CVS Flatdb')
+        {
+            environment
+            {
+                module_name = "${flatdb_module_name}"
+            }
+            steps
+            {
+                dir('./flatdb/infrastructure/gcp/')
+                {
+                    sh("bash flatdb-creation.sh")
+                }
+            }
+            when {
+                anyOf {
+                    environment name: 'module', value: 'flatdb'
+                    environment name: 'module', value: 'all'
+                }
+            }
+        }
         stage('Update CVS GUI')
         {
             environment
@@ -64,6 +84,26 @@ pipeline {
             when {
                 anyOf {
                     environment name: 'module', value: 'gui'
+                    environment name: 'module', value: 'all'
+                }
+            }
+        }
+        stage('Update CVS MySQL')
+        {
+            environment
+            {
+                module_name = "${mysql_module_name}"
+            }
+            steps
+            {
+                dir('./mysql/infrastructure/gcp/')
+                {
+                    sh("bash mysql-creation.sh")
+                }
+            }
+            when {
+                anyOf {
+                    environment name: 'module', value: 'mysql'
                     environment name: 'module', value: 'all'
                 }
             }

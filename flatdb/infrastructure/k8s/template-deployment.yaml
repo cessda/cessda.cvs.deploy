@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: DEPLOYMENTNAME
+  labels:
+    app: DEPLOYMENTNAME
+  namespace: NAMESPACE
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: DEPLOYMENTNAME
+  template:
+    metadata:
+      labels:
+        app: DEPLOYMENTNAME
+    spec:
+      containers:
+      - name: DEPLOYMENTNAME
+        image: gesis/stardat-ddiflatdb:3.5.0
+        env:
+        - name: DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: DEPLOYMENTNAME-secret
+              key: password
+        ports:
+        - containerPort: 8080
+          name: frontend-cport
+        resources:
+          requests:
+            memory: 1Gi
+          limits:
+            memory: 2Gi
