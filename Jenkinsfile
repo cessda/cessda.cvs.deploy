@@ -3,7 +3,7 @@ pipeline {
     parameters
     {
         string(name: 'gui_image_tag', defaultValue: "${docker_repo}/cvs-gui:master-latest", description: 'The version of the application to deploy, default is latest if unspecified')
-        choice choices: ['all', 'elasticsearch', 'flatdb', 'gui', 'mysql'], description: 'Choose which module to build', name: 'module'
+        choice choices: ['all', 'elasticsearch', 'flatdb', 'gui', 'mailrelay', 'mysql'], description: 'Choose which module to build', name: 'module'
     }
 
     environment
@@ -13,6 +13,8 @@ pipeline {
         es_module_name = "es"
         flatdb_module_name = "flatdb"
 		gui_module_name = "gui"
+        mailrelay_module_name = "mailrelay"
+        mailrelay_image_tag = "${docker_repo}/mailrelay:latest"
         mysql_module_name = "mysql"
         cluster = "development-cluster"
     }
@@ -86,6 +88,27 @@ pipeline {
             when {
                 anyOf {
                     environment name: 'module', value: 'gui'
+                    environment name: 'module', value: 'all'
+                }
+            }
+        }
+        stage('Update CVS Mailrelay')
+        {
+            environment
+            {
+                module_name = "${mailrelay_module_name}"
+                image_tag = "${mailrelay_image_tag}"
+            }
+            steps
+            {
+                dir('./mailrelay/infrastructure/gcp/')
+                {
+                    sh("bash mailrelay-creation.sh")
+                }
+            }
+            when {
+                anyOf {
+                    environment name: 'module', value: 'mailrelay'
                     environment name: 'module', value: 'all'
                 }
             }

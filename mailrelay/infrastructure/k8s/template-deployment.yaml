@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: NAMESPACE
+  labels:
+    app: DEPLOYMENTNAME
+  name: DEPLOYMENTNAME
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: DEPLOYMENTNAME
+  template:
+    metadata:
+      labels:
+        app: DEPLOYMENTNAME
+    spec:
+      containers:
+      - name: DEPLOYMENTNAME
+        image: IMAGENAME
+        ports:
+        - containerPort: 25
+          name: "smtp"
+        resources:
+          limits:
+            memory: 32Mi
+            cpu: 100m
+          requests:
+            memory: 16Mi
+            cpu: 10m
