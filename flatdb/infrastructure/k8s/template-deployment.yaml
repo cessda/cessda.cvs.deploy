@@ -44,7 +44,7 @@ spec:
             cpu: 100m
             memory: 400Mi
           limits:
-            cpu: 200m
+            cpu: 500m
             memory: 800Mi
       nodeSelector:
         cloud.google.com/gke-nodepool : default-pool
