@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: DEPLOYMENTNAME
-        image: IMAGENAME
+        image: IMAGETAG
         ports:
         - containerPort: 25
           name: "smtp"
@@ -28,3 +28,5 @@ spec:
           requests:
             memory: 16Mi
             cpu: 10m
+      nodeSelector:
+        cloud.google.com/gke-nodepool : default-pool
