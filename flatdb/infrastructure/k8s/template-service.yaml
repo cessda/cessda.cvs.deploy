@@ -8,7 +8,7 @@ spec:
   ports:
   - name: frontend-api
     port: 8080
-    targetPort: frontend-cport
+    targetPort: 8080
     protocol: TCP
   selector:
     app: SERVICENAME

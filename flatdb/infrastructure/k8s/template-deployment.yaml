@@ -27,10 +27,24 @@ spec:
         ports:
         - containerPort: 8080
           name: frontend-cport
+        livenessProbe:
+          httpGet:
+            path: /metrics
+            port: 8080
+          initialDelaySeconds: 300
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /metrics
+            port: 8080
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
         resources:
           requests:
-            memory: 1Gi
+            cpu: 100m
+            memory: 400Mi
           limits:
-            memory: 2Gi
+            cpu: 200m
+            memory: 800Mi
       nodeSelector:
         cloud.google.com/gke-nodepool : default-pool

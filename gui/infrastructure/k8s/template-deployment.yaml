@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: DEPLOYMENTNAME
@@ -6,6 +6,9 @@ metadata:
     app: DEPLOYMENTNAME
   namespace: NAMESPACE
 spec:
+  selector:
+    matchLabels:
+      app: DEPLOYMENTNAME
   replicas: 1
   template:
     metadata:
@@ -39,6 +42,7 @@ spec:
             cpu: 500m
             memory: 2Gi
           limits:
+            cpu: 1
             memory: 4Gi
       nodeSelector:
         cloud.google.com/gke-nodepool: himem-pool
