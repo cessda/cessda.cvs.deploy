@@ -60,8 +60,10 @@ spec:
           name: transport
         resources:
           limits:
+            cpu: 2
             memory: "5Gi"
           requests:
+            cpu: 200m
             memory: "2.5Gi"
         livenessProbe:
           tcpSocket:
