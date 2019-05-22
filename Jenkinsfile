@@ -133,5 +133,13 @@ pipeline {
                 }
             }
         }
+        stage('Run Tests')
+        {
+            steps
+            {
+                build job: 'cessda.cvs.test', wait: false
+            }
+            when { branch 'master' }
+        }
     }
 }
