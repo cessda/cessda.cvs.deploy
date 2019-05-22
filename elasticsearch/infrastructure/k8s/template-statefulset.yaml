@@ -42,13 +42,17 @@ spec:
         - name: HTTP_CORS_ALLOW_ORIGIN
           value: "*"
         - name: NETWORK_HOST
-          value: "_global_"
+          value: "0.0.0.0"
         - name: NODE_DATA
           value: "true"
         - name: NODE_INGEST
           value: "true"
         - name: NODE_MASTER
           value: "true"
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
         - name: path.repo
           value: "/backups"
         - name: xpack.security.enabled
