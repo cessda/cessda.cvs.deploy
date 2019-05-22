@@ -42,7 +42,7 @@ spec:
         - name: HTTP_CORS_ALLOW_ORIGIN
           value: "*"
         - name: NETWORK_HOST
-          value: "_eth0:ipv4_"
+          value: "_global_"
         - name: NODE_DATA
           value: "true"
         - name: NODE_INGEST
