@@ -23,9 +23,13 @@ sed "s#DEPLOYMENTNAME#$product_name-$module_name#g; s#NAMESPACE#$product_name#g"
 sed "s/SERVICENAME/$product_name-$module_name/g; s/NAMESPACE/$product_name/g" ../k8s/template-service.yaml > ../k8s/$product_name-$module_name-service.yaml
 sed "s/SERVICENAME/$product_name-$module_name/g; s/NAMESPACE/$product_name/g" ../k8s/template-discovery.yaml > ../k8s/$product_name-$module_name-discovery.yaml
 sed "s/DEPLOYMENTNAME/$product_name-$module_name/g; s/NAMESPACE/$product_name/g" ../k8s/template-configmap.yaml > ../k8s/$product_name-$module_name-configmap.yaml
+sed "s/DEPLOYMENTNAME/$product_name-$module_name/g; s/NAMESPACE/$product_name/g" ../k8s/template-secret.yaml > ../k8s/$product_name-$module_name-secret.yaml
 
 # Configmap
 kubectl apply -f ../k8s/$product_name-$module_name-configmap.yaml
+
+# Secret
+kubectl apply -f ../k8s/$product_name-$module_name-secret.yaml
 
 # Deployment
 kubectl apply -f ../k8s/$product_name-$module_name-statefulset.yaml

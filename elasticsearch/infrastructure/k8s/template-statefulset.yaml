@@ -23,6 +23,23 @@ spec:
         command: ["sysctl", "-w", "vm.max_map_count=262144"]
         securityContext:
           privileged: true
+      - name: install-gcs-repository
+        image: elasticsearch:5.6
+        command: ["bin/elasticsearch-plugin", "install", "repository-gcs"]
+        securityContext:
+          runAsUser: 0
+        volumeMounts:
+          - name: elasticsearch-plugins
+            mountPath: /usr/share/elasticsearch/plugins/
+      - name: install-gcs-service-account
+        image: elasticsearch:5.6
+        command: ["sh", "-c", "bin/elasticsearch-keystore create; cat /var/secrets/google/key.json | bin/elasticsearch-keystore add --stdin gcs.client.default.credentials_file"]
+        volumeMounts:
+          - name: gcs-credentials
+            mountPath: /var/secrets/google
+          - name: elasticsearch-keystore
+            mountPath: /etc/elasticsearch/elasticsearch.keystore
+            subPath: elasticsearch.keystore
       containers:
       - name: DEPLOYMENTNAME
         image: elasticsearch:5.6
@@ -84,12 +101,24 @@ spec:
           - name: elasticsearch-configmap
             mountPath: /usr/share/elasticsearch/config/elasticsearch.yml
             subPath: elasticsearch.yml
+          - name: elasticsearch-keystore
+            mountPath: /etc/elasticsearch/elasticsearch.keystore
+            subPath: elasticsearch.keystore
+          - name: elasticsearch-plugins
+            mountPath: /usr/share/elasticsearch/plugins/
           - name: elasticsearch-storage
             mountPath: /usr/share/elasticsearch/data/
       volumes:
         - name: elasticsearch-configmap
           configMap:
             name: DEPLOYMENTNAME-config
+        - name: elasticsearch-keystore
+          emptyDir: {}
+        - name: elasticsearch-plugins
+          emptyDir: {}
+        - name: gcs-credentials
+          secret:
+            secretName: DEPLOYMENTNAME-secret
       securityContext:
         fsGroup: 1000
       nodeSelector:
