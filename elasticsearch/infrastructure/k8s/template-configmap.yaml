@@ -12,7 +12,6 @@ data:
       ingest: ${NODE_INGEST}
       master: ${NODE_MASTER}
       name: ${NODE_NAME}
-    path.repo: ${PATH_REPO}
     http:
       enabled: true
       compression: true
