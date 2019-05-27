@@ -6,7 +6,6 @@ metadata:
   labels:
     app: SERVICENAME
 spec:
-  clusterIP: None
   selector:
     app: SERVICENAME
   ports:
