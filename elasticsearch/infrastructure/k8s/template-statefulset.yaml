@@ -33,13 +33,12 @@ spec:
             mountPath: /usr/share/elasticsearch/plugins/
       - name: install-gcs-service-account
         image: elasticsearch:5.6
-        command: ["sh", "-c", "bin/elasticsearch-keystore create; cat /var/secrets/google/key.json | bin/elasticsearch-keystore add --stdin gcs.client.default.credentials_file"]
+        command: ["sh", "-c", "bin/elasticsearch-keystore create;  bin/elasticsearch-keystore add-file gcs.client.default.credentials_file /var/secrets/google/key.json; chown elasticsearch /etc/elasticsearch/elasticsearch.keystore"]
         volumeMounts:
           - name: gcs-credentials
             mountPath: /var/secrets/google
           - name: elasticsearch-keystore
-            mountPath: /etc/elasticsearch/elasticsearch.keystore
-            subPath: elasticsearch.keystore
+            mountPath: /etc/elasticsearch/
       containers:
       - name: DEPLOYMENTNAME
         image: elasticsearch:5.6
@@ -70,8 +69,6 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        - name: path.repo
-          value: "/backups"
         - name: xpack.security.enabled
           value: "false"
         ports:
@@ -102,7 +99,7 @@ spec:
             mountPath: /usr/share/elasticsearch/config/elasticsearch.yml
             subPath: elasticsearch.yml
           - name: elasticsearch-keystore
-            mountPath: /etc/elasticsearch/elasticsearch.keystore
+            mountPath: /usr/share/elasticsearch/config/elasticsearch.keystore
             subPath: elasticsearch.keystore
           - name: elasticsearch-plugins
             mountPath: /usr/share/elasticsearch/plugins/
@@ -120,7 +117,7 @@ spec:
           secret:
             secretName: DEPLOYMENTNAME-secret
       securityContext:
-        fsGroup: 1000
+        fsGroup: 101
       nodeSelector:
         cloud.google.com/gke-nodepool: himem-pool
   serviceName: DEPLOYMENTNAME
