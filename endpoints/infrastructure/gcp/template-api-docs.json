@@ -1,0 +1,3580 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Api Documentation",
+        "version": "1.0",
+        "title": "CESSDA Vocabulary Service API",
+        "termsOfService": "urn:tos",
+        "contact": {},
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0"
+        }
+    },
+    "host": "vocabularies.cessda.eu",
+    "basePath": "/",
+    "tags": [
+        {
+            "name": "basic-error-controller",
+            "description": "Basic Error Controller"
+        },
+        {
+            "name": "cv-controller",
+            "description": "CV Controller"
+        },
+        {
+            "name": "import-web-service",
+            "description": "Import Web Service"
+        },
+        {
+            "name": "operation-handler",
+            "description": "Operation Handler"
+        },
+        {
+            "name": "vocabulary-resource",
+            "description": "Vocabulary Resource"
+        },
+        {
+            "name": "web-mvc-endpoint-handler-mapping",
+            "description": "Web Mvc Endpoint Handler Mapping"
+        }
+    ],
+    "paths": {
+        "x-google-quota": {
+            "metricCosts": {
+                "request-rate": 1
+            }
+        },
+        "/actuator": {
+            "get": {
+                "tags": [
+                    "web-mvc-endpoint-handler-mapping"
+                ],
+                "summary": "links",
+                "operationId": "linksUsingGET",
+                "produces": [
+                    "application/json",
+                    "application/vnd.spring-boot.actuator.v2+json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object",
+                                "additionalProperties": {
+                                    "$ref": "#/definitions/Link"
+                                }
+                            }
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/actuator/health": {
+            "get": {
+                "tags": [
+                    "operation-handler"
+                ],
+                "summary": "handle",
+                "operationId": "handleUsingGET",
+                "produces": [
+                    "application/json",
+                    "application/vnd.spring-boot.actuator.v2+json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body",
+                        "required": false,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/actuator/info": {
+            "get": {
+                "tags": [
+                    "operation-handler"
+                ],
+                "summary": "handle",
+                "operationId": "handleUsingGET_1",
+                "produces": [
+                    "application/json",
+                    "application/vnd.spring-boot.actuator.v2+json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body",
+                        "required": false,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/error": {
+            "get": {
+                "tags": [
+                    "basic-error-controller"
+                ],
+                "summary": "error",
+                "operationId": "errorUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "deprecated": false
+            },
+            "head": {
+                "tags": [
+                    "basic-error-controller"
+                ],
+                "summary": "error",
+                "operationId": "errorUsingHEAD",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "deprecated": false
+            },
+            "post": {
+                "tags": [
+                    "basic-error-controller"
+                ],
+                "summary": "error",
+                "operationId": "errorUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "deprecated": false
+            },
+            "put": {
+                "tags": [
+                    "basic-error-controller"
+                ],
+                "summary": "error",
+                "operationId": "errorUsingPUT",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "deprecated": false
+            },
+            "delete": {
+                "tags": [
+                    "basic-error-controller"
+                ],
+                "summary": "error",
+                "operationId": "errorUsingDELETE",
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "deprecated": false
+            },
+            "options": {
+                "tags": [
+                    "basic-error-controller"
+                ],
+                "summary": "error",
+                "operationId": "errorUsingOPTIONS",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "deprecated": false
+            },
+            "patch": {
+                "tags": [
+                    "basic-error-controller"
+                ],
+                "summary": "error",
+                "operationId": "errorUsingPATCH",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/v1/Codes/vocabulary/{vocabulary}/version/{version}/language/{language}": {
+            "get": {
+                "tags": [
+                    "cv-controller"
+                ],
+                "summary": "Get list of suggestions by agency, version or/and language",
+                "operationId": "getCodesUsingGET",
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [
+                    {
+                        "name": "language",
+                        "in": "path",
+                        "description": "language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "version",
+                        "in": "path",
+                        "description": "version",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "vocabulary",
+                        "in": "path",
+                        "description": "vocabulary",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/CodeList"
+                        }
+                    },
+                    "404": {
+                        "description": "No cv  found"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/v1/Vocabularies/agency/{agency}/version/{version}/language/{language}": {
+            "get": {
+                "tags": [
+                    "cv-controller"
+                ],
+                "summary": "Get list of suggestions by agency, version or/and language",
+                "operationId": "getVocabulariesUsingGET",
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [
+                    {
+                        "name": "agency",
+                        "in": "path",
+                        "description": "agency",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "language",
+                        "in": "path",
+                        "description": "language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "version",
+                        "in": "path",
+                        "description": "version",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/CVSchemeList"
+                        }
+                    },
+                    "404": {
+                        "description": "No cv  found"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/v1/Vocabulary": {
+            "get": {
+                "tags": [
+                    "vocabulary-resource"
+                ],
+                "summary": "getAllVocabularies",
+                "operationId": "getAllVocabulariesUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/v1/Vocabulary/SKOS": {
+            "get": {
+                "tags": [
+                    "vocabulary-resource"
+                ],
+                "summary": "getAllVocabulariesRaw",
+                "operationId": "getAllVocabulariesRawUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/VocabularyDTO"
+                            }
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/v1/VocabularyDetails/{cvCode}/{languageIso}/{version}": {
+            "get": {
+                "tags": [
+                    "vocabulary-resource"
+                ],
+                "summary": "getVocabularyDetails",
+                "operationId": "getVocabularyDetailsUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "cvCode",
+                        "in": "path",
+                        "description": "cvCode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "languageIso",
+                        "in": "path",
+                        "description": "languageIso",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "version",
+                        "in": "path",
+                        "description": "version",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/VersionDTO"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/v1/VocabularyLanguages/{cvCode}": {
+            "get": {
+                "tags": [
+                    "vocabulary-resource"
+                ],
+                "summary": "getVocabularyIsoLanguages",
+                "operationId": "getVocabularyIsoLanguagesUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "cvCode",
+                        "in": "path",
+                        "description": "cvCode",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/v1/VocabularyLanguages/{cvCode}/{languageIso}": {
+            "get": {
+                "tags": [
+                    "vocabulary-resource"
+                ],
+                "summary": "getVocabularyVersions",
+                "operationId": "getVocabularyVersionsUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "cvCode",
+                        "in": "path",
+                        "description": "cvCode",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "languageIso",
+                        "in": "path",
+                        "description": "languageIso",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/v1/import/batchcv": {
+            "post": {
+                "tags": [
+                    "import-web-service"
+                ],
+                "summary": "createCv",
+                "operationId": "createCvUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "cvs",
+                        "description": "cvs",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Cvs"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/v1/import/cv": {
+            "post": {
+                "tags": [
+                    "import-web-service"
+                ],
+                "summary": "createCv",
+                "operationId": "createCvUsingPOST_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "cv",
+                        "description": "cv",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Cv"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/VersionDTO"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/v1/suggest/Vocabulary/{vocabulary}/version/{version}/language/{language}/limit/{limit}/query/{query}": {
+            "get": {
+                "tags": [
+                    "cv-controller"
+                ],
+                "summary": "Get list of suggestions by query",
+                "operationId": "getSuggestionByQueryUsingGET",
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [
+                    {
+                        "name": "language",
+                        "in": "path",
+                        "description": "language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "path",
+                        "description": "limit",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "query",
+                        "in": "path",
+                        "description": "query",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "version",
+                        "in": "path",
+                        "description": "version",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "vocabulary",
+                        "in": "path",
+                        "description": "vocabulary",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/CodeList"
+                        }
+                    },
+                    "404": {
+                        "description": "No code found"
+                    }
+                },
+                "deprecated": false
+            }
+        }
+    },
+    "definitions": {
+        "CVConcept": {
+            "type": "object",
+            "properties": {
+                "availableLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "changeNote": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "containerId": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "ddiStore": {
+                    "$ref": "#/definitions/DDIStore"
+                },
+                "defaultDialect": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/LanguageLabel"
+                    }
+                },
+                "descriptionInEdit": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/LanguageLabel"
+                    }
+                },
+                "descriptionInEditMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/LanguageLabel"
+                    }
+                },
+                "element": {
+                    "$ref": "#/definitions/V10"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "languagesByPrefLabel": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "notation": {
+                    "type": "string"
+                },
+                "orderedNarrowerList": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "parentId": {
+                    "type": "string"
+                },
+                "prefLabel": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/LanguageLabel"
+                    }
+                },
+                "prefLabelInEdit": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/LanguageLabel"
+                    }
+                },
+                "prefLabelInEditMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/LanguageLabel"
+                    }
+                },
+                "propertyMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "studyUnit": {
+                    "$ref": "#/definitions/StudyUnit"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "xmlDocument": {
+                    "$ref": "#/definitions/Document"
+                }
+            },
+            "title": "CVConcept"
+        },
+        "CVEditor": {
+            "type": "object",
+            "properties": {
+                "affiliation": {
+                    "type": "string"
+                },
+                "availableLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "containerId": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "ddiStore": {
+                    "$ref": "#/definitions/DDIStore"
+                },
+                "defaultDialect": {
+                    "type": "string"
+                },
+                "element": {
+                    "$ref": "#/definitions/V10"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "logoPath": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "string"
+                },
+                "propertyMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "studyUnit": {
+                    "$ref": "#/definitions/StudyUnit"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "website": {
+                    "type": "string"
+                },
+                "xmlDocument": {
+                    "$ref": "#/definitions/Document"
+                }
+            },
+            "title": "CVEditor"
+        },
+        "CVScheme": {
+            "type": "object",
+            "properties": {
+                "availableLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "changeNote": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "code": {
+                    "type": "string"
+                },
+                "conceptList": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CVConcept"
+                    }
+                },
+                "containerId": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "ddiStore": {
+                    "$ref": "#/definitions/DDIStore"
+                },
+                "defaultDialect": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/LanguageLabel"
+                    }
+                },
+                "editor": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CVEditor"
+                    }
+                },
+                "element": {
+                    "$ref": "#/definitions/V10"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "languages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "languagesByTitle": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "orderedMemberList": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "ownerAgency": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CVEditor"
+                    }
+                },
+                "parentId": {
+                    "type": "string"
+                },
+                "propertyMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "sourceLanguage": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "studyUnit": {
+                    "$ref": "#/definitions/StudyUnit"
+                },
+                "title": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/LanguageLabel"
+                    }
+                },
+                "type": {
+                    "type": "string"
+                },
+                "version": {
+                    "$ref": "#/definitions/CVVersion"
+                },
+                "xmlDocument": {
+                    "$ref": "#/definitions/Document"
+                }
+            },
+            "title": "CVScheme"
+        },
+        "CVSchemeList": {
+            "type": "object",
+            "properties": {
+                "listOfCVSchemes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CVScheme"
+                    }
+                }
+            },
+            "title": "CVSchemeList"
+        },
+        "CVVersion": {
+            "type": "object",
+            "properties": {
+                "availableLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "containerId": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "ddiStore": {
+                    "$ref": "#/definitions/DDIStore"
+                },
+                "defaultDialect": {
+                    "type": "string"
+                },
+                "element": {
+                    "$ref": "#/definitions/V10"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "string"
+                },
+                "propertyMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "publicationDate": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "publicationVersion": {
+                    "type": "string"
+                },
+                "studyUnit": {
+                    "$ref": "#/definitions/StudyUnit"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "xmlDocument": {
+                    "$ref": "#/definitions/Document"
+                }
+            },
+            "title": "CVVersion"
+        },
+        "Categories": {
+            "type": "object",
+            "properties": {
+                "availableLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "category": {
+                    "type": "string"
+                },
+                "containerId": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "ddiStore": {
+                    "$ref": "#/definitions/DDIStore"
+                },
+                "defaultDialect": {
+                    "type": "string"
+                },
+                "element": {
+                    "$ref": "#/definitions/V10"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "string"
+                },
+                "propertyMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "studyUnit": {
+                    "$ref": "#/definitions/StudyUnit"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "xmlDocument": {
+                    "$ref": "#/definitions/Document"
+                }
+            },
+            "title": "Categories"
+        },
+        "Code": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "$ref": "#/definitions/ContentType"
+                },
+                "description": {
+                    "$ref": "#/definitions/ContentType"
+                },
+                "language": {
+                    "$ref": "#/definitions/ContentType"
+                },
+                "languagePrefLabel": {
+                    "$ref": "#/definitions/ContentType"
+                },
+                "prefLabel": {
+                    "$ref": "#/definitions/ContentType"
+                },
+                "url": {
+                    "$ref": "#/definitions/ContentType"
+                }
+            },
+            "title": "Code"
+        },
+        "CodeList": {
+            "type": "object",
+            "properties": {
+                "listOfCodes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Code"
+                    }
+                }
+            },
+            "title": "CodeList"
+        },
+        "CollectionDate": {
+            "type": "object",
+            "properties": {
+                "availableLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "collectionDate": {
+                    "type": "string"
+                },
+                "containerId": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "ddiStore": {
+                    "$ref": "#/definitions/DDIStore"
+                },
+                "defaultDialect": {
+                    "type": "string"
+                },
+                "element": {
+                    "$ref": "#/definitions/V10"
+                },
+                "end": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "string"
+                },
+                "propertyMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "start": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "studyUnit": {
+                    "$ref": "#/definitions/StudyUnit"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "xmlDocument": {
+                    "$ref": "#/definitions/Document"
+                }
+            },
+            "title": "CollectionDate"
+        },
+        "ConceptDTO": {
+            "type": "object",
+            "properties": {
+                "codeId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "definition": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "notation": {
+                    "type": "string"
+                },
+                "parent": {
+                    "type": "string"
+                },
+                "persisted": {
+                    "type": "boolean"
+                },
+                "position": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "previousConcept": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "uri": {
+                    "type": "string"
+                },
+                "versionId": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            },
+            "title": "ConceptDTO"
+        },
+        "ContentType": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "title": "ContentType"
+        },
+        "Contributor": {
+            "type": "object",
+            "properties": {
+                "affiliation": {
+                    "type": "string"
+                },
+                "availableLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "containerId": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "ddiStore": {
+                    "$ref": "#/definitions/DDIStore"
+                },
+                "defaultDialect": {
+                    "type": "string"
+                },
+                "element": {
+                    "$ref": "#/definitions/V10"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "string"
+                },
+                "propertyMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "role": {
+                    "type": "string"
+                },
+                "studyUnit": {
+                    "$ref": "#/definitions/StudyUnit"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "xmlDocument": {
+                    "$ref": "#/definitions/Document"
+                }
+            },
+            "title": "Contributor"
+        },
+        "Creator": {
+            "type": "object",
+            "properties": {
+                "affiliation": {
+                    "type": "string"
+                },
+                "availableLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "containerId": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "ddiStore": {
+                    "$ref": "#/definitions/DDIStore"
+                },
+                "defaultDialect": {
+                    "type": "string"
+                },
+                "element": {
+                    "$ref": "#/definitions/V10"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "individual": {
+                    "$ref": "#/definitions/Individual"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "organization": {
+                    "$ref": "#/definitions/Organization"
+                },
+                "parentId": {
+                    "type": "string"
+                },
+                "propertyMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "relation": {
+                    "$ref": "#/definitions/Relation"
+                },
+                "studyUnit": {
+                    "$ref": "#/definitions/StudyUnit"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "typeOfObject": {
+                    "type": "string"
+                },
+                "xmlDocument": {
+                    "$ref": "#/definitions/Document"
+                }
+            },
+            "title": "Creator"
+        },
+        "Cv": {
+            "type": "object",
+            "properties": {
+                "agency": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "cvCodes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CvCode"
+                    }
+                },
+                "definition": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "publicationDate": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "term": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "uri": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                },
+                "versionChanges": {
+                    "type": "string"
+                },
+                "versionNotes": {
+                    "type": "string"
+                }
+            },
+            "title": "Cv"
+        },
+        "CvCode": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "definition": {
+                    "type": "string"
+                },
+                "parent": {
+                    "type": "string"
+                },
+                "position": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "term": {
+                    "type": "string"
+                }
+            },
+            "title": "CvCode"
+        },
+        "Cvs": {
+            "type": "object",
+            "properties": {
+                "cvs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Cv"
+                    }
+                }
+            },
+            "title": "Cvs"
+        },
+        "DDIStore": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "ddiDialect": {
+                    "type": "string"
+                },
+                "elementId": {
+                    "type": "string"
+                },
+                "elementOrder": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "parentIdentifier": {
+                    "type": "string"
+                },
+                "primaryKey": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "study": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            },
+            "title": "DDIStore"
+        },
+        "DOMConfiguration": {
+            "type": "object",
+            "properties": {
+                "parameterNames": {
+                    "$ref": "#/definitions/DOMStringList"
+                }
+            },
+            "title": "DOMConfiguration"
+        },
+        "DOMImplementation": {
+            "type": "object",
+            "title": "DOMImplementation"
+        },
+        "DOMStringList": {
+            "type": "object",
+            "properties": {
+                "length": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "title": "DOMStringList"
+        },
+        "DataDocument": {
+            "type": "object",
+            "properties": {
+                "availableLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "containerId": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "dataAccess": {
+                    "type": "string"
+                },
+                "dataAccessAllowed": {
+                    "type": "string"
+                },
+                "datasize": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "ddiStore": {
+                    "$ref": "#/definitions/DDIStore"
+                },
+                "defaultDialect": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "element": {
+                    "$ref": "#/definitions/V10"
+                },
+                "filename": {
+                    "type": "string"
+                },
+                "filetype": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "isPublishForAll": {
+                    "type": "string"
+                },
+                "isPublishForRegistered": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "string"
+                },
+                "propertyMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "studyUnit": {
+                    "$ref": "#/definitions/StudyUnit"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "xmlDocument": {
+                    "$ref": "#/definitions/Document"
+                }
+            },
+            "title": "DataDocument"
+        },
+        "DatasetDocument": {
+            "type": "object",
+            "properties": {
+                "amountOfUnit": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "amountOfVariables": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "analysisSystem": {
+                    "type": "string"
+                },
+                "availableLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "containerId": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "datatype": {
+                    "type": "string"
+                },
+                "ddiStore": {
+                    "$ref": "#/definitions/DDIStore"
+                },
+                "defaultDialect": {
+                    "type": "string"
+                },
+                "element": {
+                    "$ref": "#/definitions/V10"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "string"
+                },
+                "propertyMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "studyUnit": {
+                    "$ref": "#/definitions/StudyUnit"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "xmlDocument": {
+                    "$ref": "#/definitions/Document"
+                }
+            },
+            "title": "DatasetDocument"
+        },
+        "Document": {
+            "type": "object",
+            "properties": {
+                "attributes": {
+                    "$ref": "#/definitions/NamedNodeMap"
+                },
+                "baseURI": {
+                    "type": "string"
+                },
+                "childNodes": {
+                    "$ref": "#/definitions/NodeList"
+                },
+                "doctype": {
+                    "$ref": "#/definitions/DocumentType"
+                },
+                "documentElement": {
+                    "$ref": "#/definitions/Element"
+                },
+                "documentURI": {
+                    "type": "string"
+                },
+                "domConfig": {
+                    "$ref": "#/definitions/DOMConfiguration"
+                },
+                "firstChild": {
+                    "$ref": "#/definitions/Node"
+                },
+                "implementation": {
+                    "$ref": "#/definitions/DOMImplementation"
+                },
+                "inputEncoding": {
+                    "type": "string"
+                },
+                "lastChild": {
+                    "$ref": "#/definitions/Node"
+                },
+                "localName": {
+                    "type": "string"
+                },
+                "namespaceURI": {
+                    "type": "string"
+                },
+                "nextSibling": {
+                    "$ref": "#/definitions/Node"
+                },
+                "nodeName": {
+                    "type": "string"
+                },
+                "nodeType": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "nodeValue": {
+                    "type": "string"
+                },
+                "ownerDocument": {
+                    "$ref": "#/definitions/Document"
+                },
+                "parentNode": {
+                    "$ref": "#/definitions/Node"
+                },
+                "prefix": {
+                    "type": "string"
+                },
+                "previousSibling": {
+                    "$ref": "#/definitions/Node"
+                },
+                "strictErrorChecking": {
+                    "type": "boolean"
+                },
+                "textContent": {
+                    "type": "string"
+                },
+                "xmlEncoding": {
+                    "type": "string"
+                },
+                "xmlStandalone": {
+                    "type": "boolean"
+                },
+                "xmlVersion": {
+                    "type": "string"
+                }
+            },
+            "title": "Document"
+        },
+        "DocumentType": {
+            "type": "object",
+            "properties": {
+                "attributes": {
+                    "$ref": "#/definitions/NamedNodeMap"
+                },
+                "baseURI": {
+                    "type": "string"
+                },
+                "childNodes": {
+                    "$ref": "#/definitions/NodeList"
+                },
+                "entities": {
+                    "$ref": "#/definitions/NamedNodeMap"
+                },
+                "firstChild": {
+                    "$ref": "#/definitions/Node"
+                },
+                "internalSubset": {
+                    "type": "string"
+                },
+                "lastChild": {
+                    "$ref": "#/definitions/Node"
+                },
+                "localName": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "namespaceURI": {
+                    "type": "string"
+                },
+                "nextSibling": {
+                    "$ref": "#/definitions/Node"
+                },
+                "nodeName": {
+                    "type": "string"
+                },
+                "nodeType": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "nodeValue": {
+                    "type": "string"
+                },
+                "notations": {
+                    "$ref": "#/definitions/NamedNodeMap"
+                },
+                "ownerDocument": {
+                    "$ref": "#/definitions/Document"
+                },
+                "parentNode": {
+                    "$ref": "#/definitions/Node"
+                },
+                "prefix": {
+                    "type": "string"
+                },
+                "previousSibling": {
+                    "$ref": "#/definitions/Node"
+                },
+                "publicId": {
+                    "type": "string"
+                },
+                "systemId": {
+                    "type": "string"
+                },
+                "textContent": {
+                    "type": "string"
+                }
+            },
+            "title": "DocumentType"
+        },
+        "Element": {
+            "type": "object",
+            "properties": {
+                "attributes": {
+                    "$ref": "#/definitions/NamedNodeMap"
+                },
+                "baseURI": {
+                    "type": "string"
+                },
+                "childNodes": {
+                    "$ref": "#/definitions/NodeList"
+                },
+                "firstChild": {
+                    "$ref": "#/definitions/Node"
+                },
+                "lastChild": {
+                    "$ref": "#/definitions/Node"
+                },
+                "localName": {
+                    "type": "string"
+                },
+                "namespaceURI": {
+                    "type": "string"
+                },
+                "nextSibling": {
+                    "$ref": "#/definitions/Node"
+                },
+                "nodeName": {
+                    "type": "string"
+                },
+                "nodeType": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "nodeValue": {
+                    "type": "string"
+                },
+                "ownerDocument": {
+                    "$ref": "#/definitions/Document"
+                },
+                "parentNode": {
+                    "$ref": "#/definitions/Node"
+                },
+                "prefix": {
+                    "type": "string"
+                },
+                "previousSibling": {
+                    "$ref": "#/definitions/Node"
+                },
+                "schemaTypeInfo": {
+                    "$ref": "#/definitions/TypeInfo"
+                },
+                "tagName": {
+                    "type": "string"
+                },
+                "textContent": {
+                    "type": "string"
+                }
+            },
+            "title": "Element"
+        },
+        "FurtherTitle": {
+            "type": "object",
+            "properties": {
+                "availableLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "containerId": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "ddiStore": {
+                    "$ref": "#/definitions/DDIStore"
+                },
+                "defaultDialect": {
+                    "type": "string"
+                },
+                "element": {
+                    "$ref": "#/definitions/V10"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "string"
+                },
+                "propertyMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "studyUnit": {
+                    "$ref": "#/definitions/StudyUnit"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "xmlDocument": {
+                    "$ref": "#/definitions/Document"
+                }
+            },
+            "title": "FurtherTitle"
+        },
+        "GeographicLocation": {
+            "type": "object",
+            "properties": {
+                "availableLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "containerId": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "ddiStore": {
+                    "$ref": "#/definitions/DDIStore"
+                },
+                "defaultDialect": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "element": {
+                    "$ref": "#/definitions/V10"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "levelDescription": {
+                    "type": "string"
+                },
+                "locationIdentifier": {
+                    "type": "string"
+                },
+                "locationName": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "string"
+                },
+                "propertyMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "studyUnit": {
+                    "$ref": "#/definitions/StudyUnit"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "xmlDocument": {
+                    "$ref": "#/definitions/Document"
+                }
+            },
+            "title": "GeographicLocation"
+        },
+        "Individual": {
+            "type": "object",
+            "properties": {
+                "availableLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "containerId": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "ddiStore": {
+                    "$ref": "#/definitions/DDIStore"
+                },
+                "defaultDialect": {
+                    "type": "string"
+                },
+                "element": {
+                    "$ref": "#/definitions/V10"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "string"
+                },
+                "propertyMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "researcherId": {
+                    "type": "string"
+                },
+                "studyUnit": {
+                    "$ref": "#/definitions/StudyUnit"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "xmlDocument": {
+                    "$ref": "#/definitions/Document"
+                }
+            },
+            "title": "Individual"
+        },
+        "LanguageLabel": {
+            "type": "object",
+            "properties": {
+                "availableLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "containerId": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "ddiStore": {
+                    "$ref": "#/definitions/DDIStore"
+                },
+                "defaultDialect": {
+                    "type": "string"
+                },
+                "element": {
+                    "$ref": "#/definitions/V10"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "labelLanguage": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "string"
+                },
+                "propertyMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "studyUnit": {
+                    "$ref": "#/definitions/StudyUnit"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "xmlDocument": {
+                    "$ref": "#/definitions/Document"
+                }
+            },
+            "title": "LanguageLabel"
+        },
+        "Link": {
+            "type": "object",
+            "properties": {
+                "href": {
+                    "type": "string"
+                },
+                "templated": {
+                    "type": "boolean"
+                }
+            },
+            "title": "Link"
+        },
+        "Map«string,Link»": {
+            "type": "object",
+            "title": "Map«string,Link»",
+            "additionalProperties": {
+                "$ref": "#/definitions/Link"
+            }
+        },
+        "ModelAndView": {
+            "type": "object",
+            "properties": {
+                "empty": {
+                    "type": "boolean"
+                },
+                "model": {
+                    "type": "object"
+                },
+                "modelMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "object"
+                    }
+                },
+                "reference": {
+                    "type": "boolean"
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "100",
+                        "101",
+                        "102",
+                        "103",
+                        "200",
+                        "201",
+                        "202",
+                        "203",
+                        "204",
+                        "205",
+                        "206",
+                        "207",
+                        "208",
+                        "226",
+                        "300",
+                        "301",
+                        "302",
+                        "303",
+                        "304",
+                        "305",
+                        "307",
+                        "308",
+                        "400",
+                        "401",
+                        "402",
+                        "403",
+                        "404",
+                        "405",
+                        "406",
+                        "407",
+                        "408",
+                        "409",
+                        "410",
+                        "411",
+                        "412",
+                        "413",
+                        "414",
+                        "415",
+                        "416",
+                        "417",
+                        "418",
+                        "419",
+                        "420",
+                        "421",
+                        "422",
+                        "423",
+                        "424",
+                        "426",
+                        "428",
+                        "429",
+                        "431",
+                        "451",
+                        "500",
+                        "501",
+                        "502",
+                        "503",
+                        "504",
+                        "505",
+                        "506",
+                        "507",
+                        "508",
+                        "509",
+                        "510",
+                        "511"
+                    ]
+                },
+                "view": {
+                    "$ref": "#/definitions/View"
+                },
+                "viewName": {
+                    "type": "string"
+                }
+            },
+            "title": "ModelAndView"
+        },
+        "NamedNodeMap": {
+            "type": "object",
+            "properties": {
+                "length": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "title": "NamedNodeMap"
+        },
+        "Node": {
+            "type": "object",
+            "properties": {
+                "attributes": {
+                    "$ref": "#/definitions/NamedNodeMap"
+                },
+                "baseURI": {
+                    "type": "string"
+                },
+                "childNodes": {
+                    "$ref": "#/definitions/NodeList"
+                },
+                "firstChild": {
+                    "$ref": "#/definitions/Node"
+                },
+                "lastChild": {
+                    "$ref": "#/definitions/Node"
+                },
+                "localName": {
+                    "type": "string"
+                },
+                "namespaceURI": {
+                    "type": "string"
+                },
+                "nextSibling": {
+                    "$ref": "#/definitions/Node"
+                },
+                "nodeName": {
+                    "type": "string"
+                },
+                "nodeType": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "nodeValue": {
+                    "type": "string"
+                },
+                "ownerDocument": {
+                    "$ref": "#/definitions/Document"
+                },
+                "parentNode": {
+                    "$ref": "#/definitions/Node"
+                },
+                "prefix": {
+                    "type": "string"
+                },
+                "previousSibling": {
+                    "$ref": "#/definitions/Node"
+                },
+                "textContent": {
+                    "type": "string"
+                }
+            },
+            "title": "Node"
+        },
+        "NodeList": {
+            "type": "object",
+            "properties": {
+                "length": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "title": "NodeList"
+        },
+        "Organization": {
+            "type": "object",
+            "properties": {
+                "availableLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "containerId": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "ddiStore": {
+                    "$ref": "#/definitions/DDIStore"
+                },
+                "defaultDialect": {
+                    "type": "string"
+                },
+                "element": {
+                    "$ref": "#/definitions/V10"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "organizationId": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "string"
+                },
+                "propertyMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "studyUnit": {
+                    "$ref": "#/definitions/StudyUnit"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "xmlDocument": {
+                    "$ref": "#/definitions/Document"
+                }
+            },
+            "title": "Organization"
+        },
+        "Relation": {
+            "type": "object",
+            "properties": {
+                "availableLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "containerId": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "ddiStore": {
+                    "$ref": "#/definitions/DDIStore"
+                },
+                "defaultDialect": {
+                    "type": "string"
+                },
+                "element": {
+                    "$ref": "#/definitions/V10"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "string"
+                },
+                "propertyMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "role": {
+                    "type": "string"
+                },
+                "sourceId": {
+                    "type": "string"
+                },
+                "sourceType": {
+                    "type": "string"
+                },
+                "studyUnit": {
+                    "$ref": "#/definitions/StudyUnit"
+                },
+                "targetId": {
+                    "type": "string"
+                },
+                "targetType": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "xmlDocument": {
+                    "$ref": "#/definitions/Document"
+                }
+            },
+            "title": "Relation"
+        },
+        "SpacialCoverage": {
+            "type": "object",
+            "properties": {
+                "availableLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "containerId": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "countryCodeAsString": {
+                    "type": "string"
+                },
+                "countryCodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "ddiStore": {
+                    "$ref": "#/definitions/DDIStore"
+                },
+                "defaultDialect": {
+                    "type": "string"
+                },
+                "element": {
+                    "$ref": "#/definitions/V10"
+                },
+                "geoLocationReference": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "string"
+                },
+                "propertyMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "studyUnit": {
+                    "$ref": "#/definitions/StudyUnit"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "xmlDocument": {
+                    "$ref": "#/definitions/Document"
+                }
+            },
+            "title": "SpacialCoverage"
+        },
+        "StudyUnit": {
+            "type": "object",
+            "properties": {
+                "accessCategory": {
+                    "type": "string"
+                },
+                "addendum": {
+                    "type": "string"
+                },
+                "analysisUnit": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "availableLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "categories": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Categories"
+                    }
+                },
+                "categoriesAsString": {
+                    "type": "string"
+                },
+                "collectionDates": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CollectionDate"
+                    }
+                },
+                "conceptSchemeReference": {
+                    "type": "string"
+                },
+                "containerId": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "contributor": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Contributor"
+                    }
+                },
+                "creator": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Creator"
+                    }
+                },
+                "creatorAsString": {
+                    "type": "string"
+                },
+                "creatorAsStringSorted": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Creator"
+                    }
+                },
+                "dataAccess": {
+                    "type": "string"
+                },
+                "dataDocument": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/DataDocument"
+                    }
+                },
+                "dataKind": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "dataSetDocument": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/DatasetDocument"
+                    }
+                },
+                "dateofCollectionEnd": {
+                    "type": "string"
+                },
+                "dateofCollectionStart": {
+                    "type": "string"
+                },
+                "ddiStore": {
+                    "$ref": "#/definitions/DDIStore"
+                },
+                "defaultDialect": {
+                    "type": "string"
+                },
+                "doi": {
+                    "type": "string"
+                },
+                "element": {
+                    "$ref": "#/definitions/V10"
+                },
+                "furtherTitle": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FurtherTitle"
+                    }
+                },
+                "furtherTitleAsString": {
+                    "type": "string"
+                },
+                "geographicLocation": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/GeographicLocation"
+                    }
+                },
+                "grundgesamtheit": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "instrumentReference": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "internAssignmentDate": {
+                    "type": "string"
+                },
+                "internDataCollection": {
+                    "type": "string"
+                },
+                "internDataDescription": {
+                    "type": "string"
+                },
+                "internDataOrgin": {
+                    "type": "string"
+                },
+                "internDataProvider": {
+                    "type": "string"
+                },
+                "internDataSupplier": {
+                    "type": "string"
+                },
+                "internDateState": {
+                    "type": "string"
+                },
+                "internFundingSource": {
+                    "type": "string"
+                },
+                "internalField": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "locationsofCollection": {
+                    "type": "string"
+                },
+                "modeOfCollectionType": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "modeofcollection": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "string"
+                },
+                "period": {
+                    "type": "string"
+                },
+                "periodofCollection": {
+                    "type": "string"
+                },
+                "periodofCollectionAsString": {
+                    "type": "string"
+                },
+                "propertyMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "publicationYear": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "publicationYearString": {
+                    "type": "string"
+                },
+                "publisher": {
+                    "type": "string"
+                },
+                "samplingProcedure": {
+                    "type": "string"
+                },
+                "samplingProcedureType": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "selectionMethod": {
+                    "type": "string"
+                },
+                "spacialAsString": {
+                    "type": "string"
+                },
+                "spacialCoverage": {
+                    "$ref": "#/definitions/SpacialCoverage"
+                },
+                "studyUnit": {
+                    "$ref": "#/definitions/StudyUnit"
+                },
+                "systemFiles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/SystemFiles"
+                    }
+                },
+                "temporalCoverage": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/TemporalCoverage"
+                    }
+                },
+                "timeMethodType": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "title": {
+                    "type": "string"
+                },
+                "topics": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Topic"
+                    }
+                },
+                "topicsAsString": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
+                },
+                "userIdType": {
+                    "type": "string"
+                },
+                "variableNotes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/VariableNote"
+                    }
+                },
+                "version": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Version"
+                    }
+                },
+                "versionDate": {
+                    "type": "string"
+                },
+                "versionNumber": {
+                    "type": "string"
+                },
+                "xmlDocument": {
+                    "$ref": "#/definitions/Document"
+                }
+            },
+            "title": "StudyUnit"
+        },
+        "SystemFiles": {
+            "type": "object",
+            "properties": {
+                "availableLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "containerId": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "ddiStore": {
+                    "$ref": "#/definitions/DDIStore"
+                },
+                "defaultDialect": {
+                    "type": "string"
+                },
+                "element": {
+                    "$ref": "#/definitions/V10"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "string"
+                },
+                "propertyMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "studyUnit": {
+                    "$ref": "#/definitions/StudyUnit"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "xmlDocument": {
+                    "$ref": "#/definitions/Document"
+                }
+            },
+            "title": "SystemFiles"
+        },
+        "TemporalCoverage": {
+            "type": "object",
+            "properties": {
+                "availableLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "containerId": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "dataCollectionEnd": {
+                    "type": "string"
+                },
+                "dataCollectionStart": {
+                    "type": "string"
+                },
+                "ddiStore": {
+                    "$ref": "#/definitions/DDIStore"
+                },
+                "defaultDialect": {
+                    "type": "string"
+                },
+                "element": {
+                    "$ref": "#/definitions/V10"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "string"
+                },
+                "propertyMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "studyUnit": {
+                    "$ref": "#/definitions/StudyUnit"
+                },
+                "subjectCountry": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "xmlDocument": {
+                    "$ref": "#/definitions/Document"
+                }
+            },
+            "title": "TemporalCoverage"
+        },
+        "Topic": {
+            "type": "object",
+            "properties": {
+                "availableLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "codeListName": {
+                    "type": "string"
+                },
+                "containerId": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "ddiStore": {
+                    "$ref": "#/definitions/DDIStore"
+                },
+                "defaultDialect": {
+                    "type": "string"
+                },
+                "element": {
+                    "$ref": "#/definitions/V10"
+                },
+                "engltopic": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "notation": {
+                    "type": "number",
+                    "format": "float"
+                },
+                "parentId": {
+                    "type": "string"
+                },
+                "propertyMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "studyUnit": {
+                    "$ref": "#/definitions/StudyUnit"
+                },
+                "topic": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "xmlDocument": {
+                    "$ref": "#/definitions/Document"
+                }
+            },
+            "title": "Topic"
+        },
+        "TypeInfo": {
+            "type": "object",
+            "properties": {
+                "typeName": {
+                    "type": "string"
+                },
+                "typeNamespace": {
+                    "type": "string"
+                }
+            },
+            "title": "TypeInfo"
+        },
+        "V10": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "elementTypeName": {
+                    "type": "string"
+                },
+                "identifier": {
+                    "type": "string"
+                },
+                "parentIdentifier": {
+                    "type": "string"
+                },
+                "sequenceInParent": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "title": "V10"
+        },
+        "VariableNote": {
+            "type": "object",
+            "properties": {
+                "availableLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "containerId": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "ddiStore": {
+                    "$ref": "#/definitions/DDIStore"
+                },
+                "defaultDialect": {
+                    "type": "string"
+                },
+                "element": {
+                    "$ref": "#/definitions/V10"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "noteText": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "string"
+                },
+                "propertyMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "studyUnit": {
+                    "$ref": "#/definitions/StudyUnit"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "varId": {
+                    "type": "string"
+                },
+                "xmlDocument": {
+                    "$ref": "#/definitions/Document"
+                }
+            },
+            "title": "VariableNote"
+        },
+        "Version": {
+            "type": "object",
+            "properties": {
+                "availableLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "containerId": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "dateDetail": {
+                    "type": "string"
+                },
+                "ddiStore": {
+                    "$ref": "#/definitions/DDIStore"
+                },
+                "defaultDialect": {
+                    "type": "string"
+                },
+                "descrDetail": {
+                    "type": "string"
+                },
+                "detailCorrectionDate": {
+                    "type": "string"
+                },
+                "detailCorrectionDescr": {
+                    "type": "string"
+                },
+                "detailUsername": {
+                    "type": "string"
+                },
+                "doi": {
+                    "type": "string"
+                },
+                "element": {
+                    "$ref": "#/definitions/V10"
+                },
+                "errata": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "internal": {
+                    "type": "string"
+                },
+                "isDetailCorrected": {
+                    "type": "boolean"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "string"
+                },
+                "propertyMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "studyUnit": {
+                    "$ref": "#/definitions/StudyUnit"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "titleofDetail": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "array",
+                    "items": {
+                        "type": "object"
+                    }
+                },
+                "versionNo": {
+                    "type": "string"
+                },
+                "xmlDocument": {
+                    "$ref": "#/definitions/Document"
+                }
+            },
+            "title": "Version"
+        },
+        "VersionDTO": {
+            "type": "object",
+            "properties": {
+                "canonicalUri": {
+                    "type": "string"
+                },
+                "citation": {
+                    "type": "string"
+                },
+                "copyright": {
+                    "type": "string"
+                },
+                "creator": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "ddiUsage": {
+                    "type": "string"
+                },
+                "definition": {
+                    "type": "string"
+                },
+                "discussionNotes": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "initialVersion": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "itemType": {
+                    "type": "string"
+                },
+                "language": {
+                    "type": "string"
+                },
+                "lastModified": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "license": {
+                    "type": "string"
+                },
+                "licenseId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "notation": {
+                    "type": "string"
+                },
+                "number": {
+                    "type": "string"
+                },
+                "persisted": {
+                    "type": "boolean"
+                },
+                "previousVersion": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "publicationDate": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "publisher": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "sortedConcepts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ConceptDTO"
+                    }
+                },
+                "status": {
+                    "type": "string"
+                },
+                "summary": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "translateAgency": {
+                    "type": "string"
+                },
+                "translateAgencyLink": {
+                    "type": "string"
+                },
+                "uri": {
+                    "type": "string"
+                },
+                "uriSl": {
+                    "type": "string"
+                },
+                "versionChanges": {
+                    "type": "string"
+                },
+                "versionNotes": {
+                    "type": "string"
+                },
+                "vocabularyId": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            },
+            "title": "VersionDTO"
+        },
+        "View": {
+            "type": "object",
+            "properties": {
+                "contentType": {
+                    "type": "string"
+                }
+            },
+            "title": "View"
+        },
+        "VocabularyDTO": {
+            "type": "object",
+            "properties": {
+                "agencyId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "agencyName": {
+                    "type": "string"
+                },
+                "archived": {
+                    "type": "boolean"
+                },
+                "definitionCs": {
+                    "type": "string"
+                },
+                "definitionDa": {
+                    "type": "string"
+                },
+                "definitionDe": {
+                    "type": "string"
+                },
+                "definitionEl": {
+                    "type": "string"
+                },
+                "definitionEn": {
+                    "type": "string"
+                },
+                "definitionEs": {
+                    "type": "string"
+                },
+                "definitionFi": {
+                    "type": "string"
+                },
+                "definitionFr": {
+                    "type": "string"
+                },
+                "definitionHu": {
+                    "type": "string"
+                },
+                "definitionLt": {
+                    "type": "string"
+                },
+                "definitionNl": {
+                    "type": "string"
+                },
+                "definitionNo": {
+                    "type": "string"
+                },
+                "definitionPt": {
+                    "type": "string"
+                },
+                "definitionRo": {
+                    "type": "string"
+                },
+                "definitionSk": {
+                    "type": "string"
+                },
+                "definitionSl": {
+                    "type": "string"
+                },
+                "definitionSv": {
+                    "type": "string"
+                },
+                "discoverable": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "initialPublication": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "languages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "languagesPublished": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "lastModified": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "latestStatuses": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "notation": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "persisted": {
+                    "type": "boolean"
+                },
+                "previousPublication": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "publicationDate": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "selectedLang": {
+                    "type": "string",
+                    "enum": [
+                        "cs",
+                        "da",
+                        "nl",
+                        "en",
+                        "fi",
+                        "fr",
+                        "de",
+                        "el",
+                        "hu",
+                        "lt",
+                        "no",
+                        "pt",
+                        "ro",
+                        "sk",
+                        "sl",
+                        "es",
+                        "sv"
+                    ]
+                },
+                "sourceLanguage": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "statuses": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "titleCs": {
+                    "type": "string"
+                },
+                "titleDa": {
+                    "type": "string"
+                },
+                "titleDe": {
+                    "type": "string"
+                },
+                "titleEl": {
+                    "type": "string"
+                },
+                "titleEn": {
+                    "type": "string"
+                },
+                "titleEs": {
+                    "type": "string"
+                },
+                "titleFi": {
+                    "type": "string"
+                },
+                "titleFr": {
+                    "type": "string"
+                },
+                "titleHu": {
+                    "type": "string"
+                },
+                "titleLt": {
+                    "type": "string"
+                },
+                "titleNl": {
+                    "type": "string"
+                },
+                "titleNo": {
+                    "type": "string"
+                },
+                "titlePt": {
+                    "type": "string"
+                },
+                "titleRo": {
+                    "type": "string"
+                },
+                "titleSk": {
+                    "type": "string"
+                },
+                "titleSl": {
+                    "type": "string"
+                },
+                "titleSv": {
+                    "type": "string"
+                },
+                "uri": {
+                    "type": "string"
+                },
+                "versionCs": {
+                    "type": "string"
+                },
+                "versionDa": {
+                    "type": "string"
+                },
+                "versionDe": {
+                    "type": "string"
+                },
+                "versionEl": {
+                    "type": "string"
+                },
+                "versionEn": {
+                    "type": "string"
+                },
+                "versionEs": {
+                    "type": "string"
+                },
+                "versionFi": {
+                    "type": "string"
+                },
+                "versionFr": {
+                    "type": "string"
+                },
+                "versionHu": {
+                    "type": "string"
+                },
+                "versionLt": {
+                    "type": "string"
+                },
+                "versionNl": {
+                    "type": "string"
+                },
+                "versionNo": {
+                    "type": "string"
+                },
+                "versionNumber": {
+                    "type": "string"
+                },
+                "versionPt": {
+                    "type": "string"
+                },
+                "versionRo": {
+                    "type": "string"
+                },
+                "versionSk": {
+                    "type": "string"
+                },
+                "versionSl": {
+                    "type": "string"
+                },
+                "versionSv": {
+                    "type": "string"
+                },
+                "withdrawn": {
+                    "type": "boolean"
+                }
+            },
+            "title": "VocabularyDTO"
+        }
+    },
+    "securityDefinitions": {
+        "APIKeyQueryParam": {
+            "type": "apiKey",
+            "in": "query",
+            "name": "key"
+        }
+    },
+    "security": [
+        {
+            "APIKeyQueryParam": []
+        }
+    ],
+    "x-google-management": {
+        "metrics": [
+            {
+                "name": "request-rate",
+                "displayName": "API Request Rate",
+                "valueType": "INT64",
+                "metricKind": "DELTA"
+            }
+        ],
+        "quota": {
+            "limits": [
+                {
+                    "name": "request-rate-limit",
+                    "metric": "request-rate",
+                    "unit": "1/min/{project}",
+                    "values": {
+                        "STANDARD": 2000
+                    }
+                }
+            ]
+        }
+    }
+}
