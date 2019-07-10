@@ -5,6 +5,7 @@ metadata:
   namespace: NAMESPACE
 spec:
   type: ClusterIP
+  clusterIP: None
   ports:
   - name: frontend-webui
     port: 80
