@@ -9,6 +9,7 @@ data:
       name: ${CLUSTER_NAME}
     network.host: ${NETWORK_HOST}
     node:
+      data: ${NODE_DATA}
       ingest: ${NODE_INGEST}
       master: ${NODE_MASTER}
       name: ${NODE_NAME}
@@ -20,5 +21,5 @@ data:
         allow-origin: ${HTTP_CORS_ALLOW_ORIGIN}
     discovery:
       zen:
-        minimum_master_nodes: ${NUMBER_OF_MASTERS}
+        minimum_master_nodes: ${MINIMUM_MASTER_NODES}
         ping.unicast.hosts: ${DISCOVERY_SERVICE}

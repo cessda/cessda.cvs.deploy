@@ -7,7 +7,7 @@ metadata:
     app: DEPLOYMENTNAME
 spec:
   podManagementPolicy: Parallel
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: DEPLOYMENTNAME
@@ -44,13 +44,13 @@ spec:
         image: elasticsearch:5.6
         env:
         - name: ES_JAVA_OPTS
-          value: "-Xms512m -Xmx512m"
+          value: "-Xms2g -Xmx2g"
         - name: bootstrap.memory_lock
           value: "true"
         - name: CLUSTER_NAME
           value: elasticsearch
-        - name: NUMBER_OF_MASTERS
-          value: "2"
+        - name: MINIMUM_MASTER_NODES
+          value: "1"
         - name: DISCOVERY_SERVICE
           value: DEPLOYMENTNAME-discovery
         - name: HTTP_CORS_ENABLE
