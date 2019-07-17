@@ -45,4 +45,4 @@ spec:
             cpu: 1
             memory: 4Gi
       nodeSelector:
-        cloud.google.com/gke-nodepool: himem-pool
+        cloud.google.com/gke-nodepool: default-pool
