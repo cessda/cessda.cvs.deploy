@@ -40,9 +40,9 @@ spec:
         resources:
           requests:
             cpu: 500m
-            memory: 2Gi
+            memory: 2.25Gi
           limits:
             cpu: 1
-            memory: 4Gi
+            memory: 2.25Gi
       nodeSelector:
         cloud.google.com/gke-nodepool: default-pool

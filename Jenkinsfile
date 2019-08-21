@@ -23,11 +23,9 @@ pipeline {
 
     stages
     {
-        stage('Set up gcloud'){
-            steps{
+        stage('Set up gcloud') {
+            steps {
                 sh("gcloud config set project ${project_name}")
-                sh("gcloud config set compute/region ${region}")
-                sh("gcloud config set compute/zone ${zone}")
                 sh("gcloud container clusters get-credentials ${cluster} --zone=${zone}")
             }
         }
@@ -41,7 +39,7 @@ pipeline {
             {
                 dir('./elasticsearch/infrastructure/gcp/')
                 {
-                    sh("bash es-creation.sh")
+                    sh("./es-creation.sh")
                 }
             }
             when {
@@ -61,7 +59,7 @@ pipeline {
             {
                 dir('./flatdb/infrastructure/gcp/')
                 {
-                    sh("bash flatdb-creation.sh")
+                    sh("./flatdb-creation.sh")
                 }
             }
             when {
@@ -82,7 +80,7 @@ pipeline {
             {
                 dir('./gui/infrastructure/gcp/')
                 {
-                    sh("bash gui-creation.sh")
+                    sh("./gui-creation.sh")
                 }
             }
             when {
@@ -103,7 +101,7 @@ pipeline {
             {
                 dir('./mailrelay/infrastructure/gcp/')
                 {
-                    sh("bash mailrelay-creation.sh")
+                    sh("./mailrelay-creation.sh")
                 }
             }
             when {
@@ -123,7 +121,7 @@ pipeline {
             {
                 dir('./mysql/infrastructure/gcp/')
                 {
-                    sh("bash mysql-creation.sh")
+                    sh("./mysql-creation.sh")
                 }
             }
             when {
