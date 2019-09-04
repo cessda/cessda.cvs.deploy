@@ -22,15 +22,15 @@ spec:
         env:
         - name: DC_ENV
           value: ENVIRONMENT
-        - name: logging.level.ROOT
+        - name: LOGGING_LEVEL_ROOT
           value: INFO
-        - name: logging.level.org.elasticsearch
+        - name: LOGGING_LEVEL_ORG_ELASTICSEARCH
           value: INFO
-        - name: logging.level.org.gesis.wts
+        - name: LOGGING_LEVEL_ORG_GESIS_WTS
           value: INFO
-        - name: logging.level.eu.cessda.cvmanager
+        - name: LOGGING_LEVEL_EU_CESSDA_CVMANAGER
           value: INFO
-        - name: logging.level.org.hibernate.SQL
+        - name: LOGGING_LEVEL_ORG_HIBERNATE_SQL
           value: INFO
         ports:
         - containerPort: 8080
