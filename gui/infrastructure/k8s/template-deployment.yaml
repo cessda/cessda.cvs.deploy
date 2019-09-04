@@ -26,11 +26,11 @@ spec:
           value: INFO
         - name: logging.level.org.elasticsearch
           value: INFO
-        - name: org.gesis.wts
+        - name: logging.level.org.gesis.wts
           value: INFO
-        - name: eu.cessda.cvmanager
+        - name: logging.level.eu.cessda.cvmanager
           value: INFO
-        - name: org.hibernate.SQL
+        - name: logging.level.org.hibernate.SQL
           value: INFO
         ports:
         - containerPort: 8080
