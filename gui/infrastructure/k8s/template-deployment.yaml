@@ -22,6 +22,16 @@ spec:
         env:
         - name: DC_ENV
           value: ENVIRONMENT
+        - name: logging.level.ROOT
+          value: INFO
+        - name: logging.level.org.elasticsearch
+          value: INFO
+        - name: org.gesis.wts
+          value: INFO
+        - name: eu.cessda.cvmanager
+          value: INFO
+        - name: org.hibernate.SQL
+          value: INFO
         ports:
         - containerPort: 8080
           name: frontend-cport
