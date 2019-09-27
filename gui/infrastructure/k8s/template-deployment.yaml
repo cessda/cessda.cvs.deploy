@@ -22,6 +22,8 @@ spec:
         env:
         - name: DC_ENV
           value: ENVIRONMENT
+        - name: DDIFLATDB_REST_URL
+          value: DEPLOYMENTNAME-flatdb:8080
         - name: LOGGING_LEVEL_ROOT
           value: INFO
         - name: LOGGING_LEVEL_ORG_ELASTICSEARCH
@@ -32,6 +34,24 @@ spec:
           value: INFO
         - name: LOGGING_LEVEL_ORG_HIBERNATE_SQL
           value: INFO
+        - name: SPRING_DATA_ELASTICSEARCH_CLUSTERNAME
+          value: DEPLOYMENTNAME-es
+        - name: SPRING_DATA_ELASTICSEARCH_CLUSTERNODES
+          value: DEPLOYMENTNAME-es
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:mysql://cvs-mysql:3306/cvmanager-security?useSSL=false&amp;useUnicode=yes&amp;characterEncoding=UTF-8
+        - name: SPRING_DATASOURCE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: DEPLOYMENTNAME-secret
+              key: username
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: DEPLOYMENTNAME-secret
+              key: password
+        - name: SPRING_MAIL_HOST
+          value: DEPLOYMENTNAME-mailrelay
         ports:
         - containerPort: 8080
           name: frontend-cport
