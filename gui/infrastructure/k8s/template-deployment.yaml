@@ -20,10 +20,8 @@ spec:
         image: IMAGETAG
         imagePullPolicy: Always
         env:
-        - name: DC_ENV
-          value: ENVIRONMENT
         - name: DDIFLATDB_REST_URL
-          value: DEPLOYMENTNAME-flatdb:8080
+          value: NAMESPACE-flatdb:8080
         - name: LOGGING_LEVEL_ROOT
           value: INFO
         - name: LOGGING_LEVEL_ORG_ELASTICSEARCH
@@ -35,11 +33,11 @@ spec:
         - name: LOGGING_LEVEL_ORG_HIBERNATE_SQL
           value: INFO
         - name: SPRING_DATA_ELASTICSEARCH_CLUSTERNAME
-          value: DEPLOYMENTNAME-es
+          value: NAMESPACE-es
         - name: SPRING_DATA_ELASTICSEARCH_CLUSTERNODES
-          value: DEPLOYMENTNAME-es
+          value: NAMESPACE-es:9300
         - name: SPRING_DATASOURCE_URL
-          value: jdbc:mysql://cvs-mysql:3306/cvmanager-security?useSSL=false&amp;useUnicode=yes&amp;characterEncoding=UTF-8
+          value: jdbc:mysql://NAMESPACE-mysql:3306/cvmanager-security?useSSL=false&amp;useUnicode=yes&amp;characterEncoding=UTF-8
         - name: SPRING_DATASOURCE_USERNAME
           valueFrom:
             secretKeyRef:
