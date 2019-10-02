@@ -20,7 +20,7 @@ if kubectl get ns $product_name > /dev/null 2>&1;
 fi;
 
 ### Kubernetes configuration generation ###
-sed "s#DEPLOYMENTNAME#$product_name-$module_name#g; s#NAMESPACE#$product_name#g" ../k8s/template-statefulset.yaml > ../k8s/$product_name-$module_name-statefulset.yaml
+sed "s#DEPLOYMENTNAME#$product_name-$module_name#g; s#NAMESPACE#$product_name#g; s#IMAGETAG#$image_tag#g" ../k8s/template-statefulset.yaml > ../k8s/$product_name-$module_name-statefulset.yaml
 sed "s#DEPLOYMENTNAME#$product_name-$module_name#g; s#NAMESPACE#$product_name#g" ../k8s/template-deployment.yaml > ../k8s/$product_name-$module_name-deployment.yaml
 sed "s/SERVICENAME/$product_name-$module_name/g; s/NAMESPACE/$product_name/g" ../k8s/template-service.yaml > ../k8s/$product_name-$module_name-service.yaml
 sed "s/SERVICENAME/$product_name-$module_name/g; s/NAMESPACE/$product_name/g" ../k8s/template-discovery.yaml > ../k8s/$product_name-$module_name-discovery.yaml

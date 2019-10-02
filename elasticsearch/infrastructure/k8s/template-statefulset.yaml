@@ -23,17 +23,9 @@ spec:
         command: ["sysctl", "-w", "vm.max_map_count=262144"]
         securityContext:
           privileged: true
-      - name: install-gcs-repository
-        image: elasticsearch:5.6
-        command: ["bin/elasticsearch-plugin", "install", "repository-gcs"]
-        securityContext:
-          runAsUser: 0
-        volumeMounts:
-          - name: elasticsearch-plugins
-            mountPath: /usr/share/elasticsearch/plugins/
       - name: install-gcs-service-account
-        image: elasticsearch:5.6
-        command: ["sh", "-c", "bin/elasticsearch-keystore create;  bin/elasticsearch-keystore add-file gcs.client.default.credentials_file /var/secrets/google/key.json; chown elasticsearch /etc/elasticsearch/elasticsearch.keystore"]
+        image: IMAGETAG
+        command: ["sh", "-c", "bin/elasticsearch-keystore create; bin/elasticsearch-keystore add-file gcs.client.default.credentials_file /var/secrets/google/key.json"]
         volumeMounts:
           - name: gcs-credentials
             mountPath: /var/secrets/google
@@ -41,22 +33,16 @@ spec:
             mountPath: /etc/elasticsearch/
       containers:
       - name: DEPLOYMENTNAME
-        image: elasticsearch:5.6
+        image: IMAGETAG
         env:
         - name: ES_JAVA_OPTS
-          value: "-Xms2g -Xmx2g"
-        - name: bootstrap.memory_lock
-          value: "true"
+          value: "-Xms1g -Xmx1g"
         - name: CLUSTER_NAME
           value: DEPLOYMENTNAME
         - name: MINIMUM_MASTER_NODES
           value: "1"
         - name: DISCOVERY_SERVICE
           value: DEPLOYMENTNAME-discovery
-        - name: HTTP_CORS_ENABLE
-          value: "true"
-        - name: HTTP_CORS_ALLOW_ORIGIN
-          value: "*"
         - name: NETWORK_HOST
           value: "0.0.0.0"
         - name: NODE_DATA
@@ -69,8 +55,6 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        - name: xpack.security.enabled
-          value: "false"
         ports:
         - containerPort: 9200
           name: http
@@ -79,10 +63,10 @@ spec:
         resources:
           limits:
             cpu: 2
-            memory: "3Gi"
+            memory: "2Gi"
           requests:
             cpu: 200m
-            memory: "2.5Gi"
+            memory: "2Gi"
         livenessProbe:
           tcpSocket:
             port: transport
@@ -101,8 +85,6 @@ spec:
           - name: elasticsearch-keystore
             mountPath: /usr/share/elasticsearch/config/elasticsearch.keystore
             subPath: elasticsearch.keystore
-          - name: elasticsearch-plugins
-            mountPath: /usr/share/elasticsearch/plugins/
           - name: elasticsearch-storage
             mountPath: /usr/share/elasticsearch/data/
       volumes:
@@ -110,8 +92,6 @@ spec:
           configMap:
             name: DEPLOYMENTNAME-config
         - name: elasticsearch-keystore
-          emptyDir: {}
-        - name: elasticsearch-plugins
           emptyDir: {}
         - name: gcs-credentials
           secret:

@@ -16,9 +16,6 @@ data:
     http:
       enabled: true
       compression: true
-      cors:
-        enabled: ${HTTP_CORS_ENABLE}
-        allow-origin: ${HTTP_CORS_ALLOW_ORIGIN}
     discovery:
       zen:
         minimum_master_nodes: ${MINIMUM_MASTER_NODES}
