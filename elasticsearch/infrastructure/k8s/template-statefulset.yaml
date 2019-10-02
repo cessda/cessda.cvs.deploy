@@ -26,6 +26,7 @@ spec:
       - name: install-gcs-service-account
         image: IMAGETAG
         command: ["sh", "-c", "bin/elasticsearch-keystore create; bin/elasticsearch-keystore add-file gcs.client.default.credentials_file /var/secrets/google/key.json"]
+        runAsUser: 0
         volumeMounts:
           - name: gcs-credentials
             mountPath: /var/secrets/google
