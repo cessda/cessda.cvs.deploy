@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "es.fullname" . }}-exporter
+  labels:
+    {{- include "es.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.httpPort }}
+      targetPort: exporter
+      protocol: TCP
+      name: exporter
+  selector:
+    {{- include "es.selectorLabels.exporter" . | nindent 4 }}

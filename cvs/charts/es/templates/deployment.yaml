@@ -1,0 +1,78 @@
+{{- if .Values.elasticsearchExporter.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "es.fullname" . }}-exporter
+  labels:
+    {{- include "es.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "es.selectorLabels.exporter" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "es.selectorLabels.exporter" . | nindent 8 }}
+      {{- if .Values.logging.parser.enabled }}
+      annotations:
+        fluentbit.io/parser: "logfmt"
+      {{- end }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "es.serviceAccountName" . }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            capabilities:
+              drop:
+              - SETPCAP
+              - MKNOD
+              - AUDIT_WRITE
+              - CHOWN
+              - NET_RAW
+              - DAC_OVERRIDE
+              - FOWNER
+              - FSETID
+              - KILL
+              - SETGID
+              - SETUID
+              - NET_BIND_SERVICE
+              - SYS_CHROOT
+              - SETFCAP
+            readOnlyRootFilesystem: true
+          image: "{{ .Values.elasticsearchExporter.image }}"
+          imagePullPolicy: {{ .Values.elasticsearchExporter.pullPolicy }}
+          env:
+            - name: ES_URI
+              value: "http://{{ include "es.fullname" . }}:9200"
+            - name: ES_ALL
+              value: "true"
+          ports:
+            - name: exporter
+              containerPort: 9114
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: exporter
+            initialDelaySeconds: 30
+            timeoutSeconds: 10
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+{{- end -}}

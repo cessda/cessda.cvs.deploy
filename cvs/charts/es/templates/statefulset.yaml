@@ -1,0 +1,135 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "es.fullname" . }}
+  labels:
+    {{- include "es.labels" . | nindent 4 }}
+spec:
+  podManagementPolicy: Parallel
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "es.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "es.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "es.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+      - name: init-sysctl
+        image: busybox
+        imagePullPolicy: Always
+        command: ["sysctl", "-w", "vm.max_map_count=262144"]
+        securityContext:
+          privileged: true
+    {{- if .Values.elasticsearch.backup.enabled }}
+      - name: install-gcs-service-account
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: Always
+        command: ["sh", "-c", "bin/elasticsearch-keystore create; bin/elasticsearch-keystore add-file gcs.client.default.credentials_file /var/secrets/google/key.json"]
+        securityContext:
+          runAsUser: 0
+        volumeMounts:
+          - name: gcs-credentials
+            mountPath: /var/secrets/google
+          - name: elasticsearch-keystore
+            mountPath: /etc/elasticsearch/
+    {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          - name: ES_JAVA_OPTS
+            value: "{{ .Values.elasticsearch.javaOpts }}"
+          - name: CLUSTER_NAME
+            value: "{{ include "es.fullname" . }}"
+          - name: MINIMUM_MASTER_NODES
+            value: "{{ .Values.elasticsearch.minimumMasterNodes }}"
+          - name: DISCOVERY_SERVICE
+            value: "{{ include "es.fullname" . }}-discovery"
+          - name: NETWORK_HOST
+            value: "0.0.0.0"
+          - name: NODE_DATA
+            value: "true"
+          - name: NODE_INGEST
+            value: "true"
+          - name: NODE_MASTER
+            value: "true"
+          - name: NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          ports:
+            - containerPort: 9200
+              name: http
+              protocol: TCP
+            - containerPort: 9300
+              name: transport
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          livenessProbe:
+            tcpSocket:
+              port: transport
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /_cluster/health
+              port: http
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+          volumeMounts:
+            - name: elasticsearch-configmap
+              mountPath: /usr/share/elasticsearch/config/elasticsearch.yml
+              subPath: elasticsearch.yml
+          {{- if .Values.elasticsearch.backup.enabled }}
+            - name: elasticsearch-keystore
+              mountPath: /usr/share/elasticsearch/config/elasticsearch.keystore
+              subPath: elasticsearch.keystore
+          {{- end }}
+            - name: elasticsearch-storage
+              mountPath: /usr/share/elasticsearch/data/
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: elasticsearch-configmap
+          configMap:
+            name: {{ include "es.fullname" . }}-config
+        {{- if .Values.elasticsearch.backup.enabled }}
+        - name: elasticsearch-keystore
+          emptyDir: {}
+        - name: gcs-credentials
+          secret:
+            secretName: {{ include "es.fullname" . }}-secret
+        {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+  serviceName: {{ include "es.fullname" . }}
+  volumeClaimTemplates:
+    - metadata:
+        name: elasticsearch-storage
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: {{ .Values.elasticsearch.storage.size }}

@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "gui.fullname" . }}
+  labels:
+    {{- include "gui.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "gui.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "gui.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "gui.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env: 
+          - name: DDIFLATDB_REST_URL
+            value: http://{{ .Release.Name }}-flatdb:8080
+          - name: LOGGING_LEVEL_ROOT
+            value: {{ .Values.logging.level }}
+          - name: LOGGING_LEVEL_ORG_ELASTICSEARCH
+            value: {{ .Values.logging.level }}
+          - name: LOGGING_LEVEL_ORG_GESIS_WTS
+            value: {{ .Values.logging.level }}
+          - name: LOGGING_LEVEL_EU_CESSDA_CVMANAGER
+            value: {{ .Values.logging.level }}
+          - name: LOGGING_LEVEL_ORG_HIBERNATE_SQL
+            value: {{ .Values.logging.level }}
+          - name: SPRING_DATA_ELASTICSEARCH_CLUSTERNAME
+            value: {{ .Release.Name }}-es
+          - name: SPRING_DATA_ELASTICSEARCH_CLUSTERNODES
+            value: {{ .Release.Name }}-es:9300
+          - name: SPRING_DATASOURCE_URL
+            value: jdbc:mysql://{{ .Release.Name }}-mysql:3306/cvmanager-security?useSSL=false&amp;useUnicode=yes&amp;characterEncoding=UTF-8
+          - name: SPRING_DATASOURCE_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Release.Name }}-secret
+                key: username
+          - name: SPRING_DATASOURCE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Release.Name }}-secret
+                key: password
+          - name: SPRING_MAIL_HOST
+            value: {{ .Release.Name }}-mailrelay            
+          ports:
+            - name: gui-cport
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: gui-cport
+            initialDelaySeconds: 300
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: gui-cport
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

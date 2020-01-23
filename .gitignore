@@ -1,0 +1,2 @@
+# Ignore pulled in Helm dependencies
+*.tgz

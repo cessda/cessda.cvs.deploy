@@ -1,0 +1,62 @@
+# Default values for es.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: eu.gcr.io/cessda-prod/cvs-es
+  tag: master-latest
+  pullPolicy: Always
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+elasticsearch:
+  backup:
+    enabled: true
+  javaOpts: "-Xms1g -Xmx1g"
+  minimumMasterNodes: 1
+  storage:
+    size: 10Gi
+
+elasticsearchExporter:
+  enabled: true
+  image: justwatch/elasticsearch_exporter:1.1.0
+
+logging:
+  parser:
+    enabled: true
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+podSecurityContext:
+  fsGroup: 102
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  httpPort: 9200
+  transportPort: 9300
+
+resources:
+  limits:
+    cpu: 2
+    memory: "2Gi"
+  requests:
+    cpu: 200m
+    memory: "2Gi"
+
+nodeSelector:
+  cloud.google.com/gke-nodepool: himem-pool
+
+tolerations: []
+
+affinity: {}

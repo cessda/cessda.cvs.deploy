@@ -6,23 +6,17 @@ pipeline {
     }
 
     parameters {
-        string(name: 'gui_image_tag', defaultValue: "${docker_repo}/cvs-gui:master-latest", description: 'The version of the application to deploy, default is latest if unspecified')
-        choice choices: ['all', 'elasticsearch', 'flatdb', 'gui', 'mailrelay', 'mysql'], description: 'Choose which module to build', name: 'module'
+        string(name: 'gui_image_tag', defaultValue: "master-latest", description: 'The version of the application to deploy, default is latest if unspecified')
     }
 
     environment {
         project_name = "cessda-dev"
         product_name = "cvs"
-        es_module_name = "es"
-        es_image_tag = "${docker_repo}/${product_name}-${es_module_name}:${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
-        flatdb_module_name = "flatdb"
-		gui_module_name = "gui"
-        mailrelay_module_name = "mailrelay"
-        mailrelay_image_tag = "${docker_repo}/mailrelay:latest"
-        mysql_module_name = "mysql"
         cluster = "development-cluster"
+        es_image_tag = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+        kubeScoreHome = tool 'kube-score'
+        helmHome = tool 'helm'
     }
-
     agent any
 
     stages {
@@ -34,7 +28,7 @@ pipeline {
         }
         stage('Update CVS Elasticsearch') {
             environment {
-                image_tag = "${es_image_tag}"
+                image_tag = "${docker_repo}/${product_name}-es:${es_image_tag}"
                 module_name = "${es_module_name}"
             }
             steps {
@@ -43,89 +37,40 @@ pipeline {
                     sh("docker build -t ${image_tag} .")
                     sh("docker push ${image_tag}")
                 }
-                dir('./elasticsearch/infrastructure/gcp/') {
-                    sh("./es-creation.sh")
-                }
-            }
-            when {
-                anyOf {
-                    environment name: 'module', value: 'elasticsearch'
-                    environment name: 'module', value: 'all'
-                }
             }
         }
-        stage('Update CVS Flatdb') {
-            environment {
-                module_name = "${flatdb_module_name}"
-            }
+        stage('Run kube-score') {
             steps {
-                dir('./flatdb/infrastructure/gcp/') {
-                    sh("./flatdb-creation.sh")
-                }
-            }
-            when {
-                anyOf {
-                    environment name: 'module', value: 'flatdb'
-                    environment name: 'module', value: 'all'
-                }
+                sh "${helmHome}/helm plugin install https://github.com/hayorov/helm-gcs || true"
+                sh "${helmHome}/helm dependency update cvs"
+                sh "${helmHome}/helm template ${product_name} cvs | ${kubeScoreHome}/kube-score score - || true"
             }
         }
-        stage('Update CVS GUI') {
-            environment {
-                module_name = "${gui_module_name}"
-                image_tag = "${gui_image_tag}"
-            }
+        stage('Create Namespace') {
             steps {
-                dir('./gui/infrastructure/gcp/') {
-                    sh("./gui-creation.sh")
-                }
-            }
-            when {
-                anyOf {
-                    environment name: 'module', value: 'gui'
-                    environment name: 'module', value: 'all'
-                }
+                sh script: '''
+                    if kubectl get ns $product_name
+                        then
+                            echo "Namespace already exists"
+                        else
+                            kubectl create namespace $product_name
+                    fi;
+                '''
             }
         }
-        stage('Update CVS Mailrelay') {
-            environment {
-                module_name = "${mailrelay_module_name}"
-                image_tag = "${mailrelay_image_tag}"
-            }
+        stage('Deploy CVS') {
             steps {
-                dir('./mailrelay/infrastructure/gcp/') {
-                    sh("./mailrelay-creation.sh")
-                }
-            }
-            when {
-                anyOf {
-                    environment name: 'module', value: 'mailrelay'
-                    environment name: 'module', value: 'all'
-                }
+                sh("${helmHome}/helm upgrade ${product_name} cvs -n ${product_name} -i --atomic" +
+                " --set es.image.tag=${es_image_tag} --set gui.image.tag=${gui_image_tag}" +
+                " --set mysql.username=${mysqlUsername} --set mysql.password=${mysqlPassword}" +
+                " --set mysql.flatdb.username=${flatdbUsername} --set mysql.flatdb.password=${flatdbPassword}")
             }
         }
-        stage('Update CVS MySQL') {
-            environment {
-                module_name = "${mysql_module_name}"
-            }
-            steps {
-                dir('./mysql/infrastructure/gcp/')
-                {
-                    sh("./mysql-creation.sh")
-                }
-            }
-            when {
-                anyOf {
-                    environment name: 'module', value: 'mysql'
-                    environment name: 'module', value: 'all'
-                }
-            }
-        }
-        stage('Run Tests') {
+        /*stage('Run Tests') {
             steps {
                 build job: 'cessda.cvs.test', wait: false
             }
-            when { branch 'master' }
+        when { branch 'master' }*/
         }
     }
 }
