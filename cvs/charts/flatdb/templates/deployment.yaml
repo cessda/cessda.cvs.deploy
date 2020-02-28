@@ -28,14 +28,14 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-          - name: SPRING_DATASOURCE_URL
+          - name: DATASOURCE_URL
             value: jdbc:mysql://{{ .Release.Name }}-mysql:3306/stardat-ddiflatdb?useSSL=false&amp;autoReconnect=true&amp;maxReconnects=24&amp;initialTimeout=5
-          - name: SPRING_DATASOURCE_USERNAME
+          - name: DATASOURCE_USERNAME
             valueFrom:
               secretKeyRef:
                 name: {{ .Release.Name }}-secret
                 key: flatdb-username
-          - name: SPRING_DATASOURCE_PASSWORD
+          - name: DATASOURCE_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: {{ .Release.Name }}-secret
