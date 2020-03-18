@@ -12,6 +12,9 @@ spec:
       {{- include "es.selectorLabels" . | nindent 6 }}
   template:
     metadata:
+      annotations:
+        checksum/config: {{ .Files.Get "config/elasticsearch.yml" | sha256sum }}
+        checksum/secret: {{ .Files.Get "secret/key.json" | sha256sum }}
       labels:
         {{- include "es.selectorLabels" . | nindent 8 }}
     spec:

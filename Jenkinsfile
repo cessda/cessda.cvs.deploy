@@ -61,7 +61,9 @@ pipeline {
         stage('Deploy CVS') {
             steps {
                 withCredentials([usernamePassword(credentialsId: '733c02c4-428f-4c84-b0e1-b05b44ab21e4', passwordVariable: 'mysqlPassword', usernameVariable: 'mysqlUsername'), 
-                usernamePassword(credentialsId: '2e89ebbf-9b6a-423a-8cf4-5b20e396b2c2', passwordVariable: 'flatdbPassword', usernameVariable: 'flatdbUsername')]) {
+                usernamePassword(credentialsId: '2e89ebbf-9b6a-423a-8cf4-5b20e396b2c2', passwordVariable: 'flatdbPassword', usernameVariable: 'flatdbUsername'),
+                file(credentialsId: '845ba95a-2c30-4e5f-82b7-f36265434815', variable: 'elasticsearchBackupCredentials')]) {
+                    fileOperations([fileCopyOperation(includes: "${elasticsearchBackupCredentials}", targetLocation: 'cvs/charts/es/secret/')])
                     sh("${helmHome}/helm upgrade ${product_name} cvs -n ${product_name} -i --atomic" +
                     " --set es.image.tag=${es_image_tag} --set gui.image.tag=${gui_image_tag}" +
                     " --set mysql.username=${mysqlUsername} --set mysql.password=${mysqlPassword}" +
