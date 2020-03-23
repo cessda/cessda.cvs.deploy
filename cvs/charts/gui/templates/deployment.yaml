@@ -57,7 +57,9 @@ spec:
                 name: {{ .Release.Name }}-secret
                 key: password
           - name: SPRING_MAIL_HOST
-            value: {{ .Release.Name }}-mailrelay            
+            value: {{ .Release.Name }}-mailrelay   
+          - name: SPRING_PROFILES_ACTIVE
+            value: gcp         
           ports:
             - name: gui-cport
               containerPort: 8080
