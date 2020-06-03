@@ -1,3 +1,5 @@
 # Ignore pulled in Helm dependencies
-*.tgz
-cvs/charts/es/secret/
+charts/*.tgz
+
+# Ignore GCP service account credentials
+charts/es/secret/

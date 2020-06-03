@@ -1,0 +1,14 @@
+# Default values for cvs.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+mailrelay:
+  enabled: true
+
+mysql:
+  enabled: true
+  mysqlDatabase: cvs
+  mysqlAllowEmptyPassword: true
+  initializationFiles:
+    grant.sql: |-
+      grant all privileges on *.* to root@'%' identified by '' with grant option;
