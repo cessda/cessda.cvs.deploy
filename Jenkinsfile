@@ -41,9 +41,7 @@ pipeline {
         }
         stage('Run kube-score') {
             steps {
-                sh "${helmHome}/helm plugin install https://github.com/hayorov/helm-gcs || true"
-                sh "${helmHome}/helm dependency update cvs"
-                sh "${helmHome}/helm template ${product_name} cvs | ${kubeScoreHome}/kube-score score - || true"
+                sh "${helmHome}/helm template ${product_name} . | ${kubeScoreHome}/kube-score score - || true"
             }
         }
         stage('Create Namespace') {
