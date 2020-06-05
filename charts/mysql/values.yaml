@@ -1,0 +1,15 @@
+# Default values for mysql.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+location:
+  address: 172.19.209.15
+  port: 3306
+
+service:
+  type: ClusterIP
+  port: 3306
+
+# Overridden by CI
+username: mysql
+password: changeme

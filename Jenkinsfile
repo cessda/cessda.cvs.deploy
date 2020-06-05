@@ -11,7 +11,7 @@ pipeline {
 
     environment {
         project_name = "cessda-dev"
-        product_name = "cvs"
+        product_name = "cvs-v2"
         cluster = "development-cluster"
         es_image_tag = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
         kubeScoreHome = tool 'kube-score'
