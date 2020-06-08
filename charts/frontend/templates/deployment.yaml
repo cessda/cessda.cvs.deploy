@@ -71,7 +71,7 @@ spec:
             - name: SPRING_DATA_ELASTICSEARCH_CLUSTER_NAME
               value: "{{ .Release.Name }}-es"
             - name: SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES
-              value: "http://{{ .Release.Name }}-es.{{ .Release.Namespace }}.svc.cluster.local:9300"
+              value: "{{ .Release.Name }}-es.{{ .Release.Namespace }}.svc.cluster.local:9300"
             - name: SPRING_DATA_ELASTICSEARCH_REST_URIS
               value: "http://{{ .Release.Name }}-es.{{ .Release.Namespace }}.svc.cluster.local:9200"
             - name: JAVA_OPTS
