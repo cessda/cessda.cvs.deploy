@@ -55,7 +55,7 @@ spec:
                   name: jwt-secret
                   key: secret
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://{{ .Release.Name }}-mysql:3306/cvs?useUnicode=true&characterEncoding=utf8&useSSL=false&createDatabaseIfNotExist=true
+              value: "jdbc:mysql://{{ .Release.Name }}-mysql:3306/cvs?useUnicode=true&characterEncoding=utf8&useSSL=false&createDatabaseIfNotExist=true"
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -67,13 +67,13 @@ spec:
                   name: {{ .Release.Name }}-secret
                   key: password
             - name: SPRING_DATA_JEST_URI
-              value: http://cvs-es.{{ .Release.Namespace }}.svc.cluster.local:9200
-            - name: SPRING_ELASTICSEARCH_REST_URIS
-              value: http://cvs-es.{{ .Release.Namespace }}.svc.cluster.local:9200
-            - name: SPRING_ELASTICSEARCH_CLUSTER_NAME
+              value: "http://{{ .Release.Name }}-es.{{ .Release.Namespace }}.svc.cluster.local:9200"
+            - name: SPRING_DATA_ELASTICSEARCH_CLUSTER_NAME
               value: "{{ .Release.Name }}-es"
-            - name: SPRING_ELASTICSEARCH_CLUSTER_NODES
-              value: http://{{ .Release.Name }}-es.{{ .Release.Namespace }}.svc.cluster.local:9300
+            - name: SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES
+              value: "http://{{ .Release.Name }}-es.{{ .Release.Namespace }}.svc.cluster.local:9300"
+            - name: SPRING_DATA_ELASTICSEARCH_REST_URIS
+              value: "http://{{ .Release.Name }}-es.{{ .Release.Namespace }}.svc.cluster.local:9200"
             - name: JAVA_OPTS
               value: "{{ .Values.javaOpts }}"
           ports:
