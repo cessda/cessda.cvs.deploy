@@ -43,7 +43,7 @@ spec:
           - name: gcs-credentials
             mountPath: /var/secrets/google
           - name: elasticsearch-keystore
-            mountPath: /etc/elasticsearch/
+            mountPath: /usr/share/elasticsearch/config/
     {{- end }}
       containers:
         - name: {{ .Chart.Name }}
