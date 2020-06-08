@@ -28,7 +28,7 @@ pipeline {
         }
         stage('Update CVS Elasticsearch') {
             environment {
-                image_tag = "${docker_repo}/${product_name}-es:${es_image_tag}"
+                image_tag = "${docker_repo}/cvs-es:${es_image_tag}"
                 module_name = "${es_module_name}"
             }
             steps {
