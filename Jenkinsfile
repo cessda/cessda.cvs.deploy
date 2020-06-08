@@ -6,7 +6,7 @@ pipeline {
     }
 
     parameters {
-        string(name: 'gui_image_tag', defaultValue: "master-latest", description: 'The version of the application to deploy, default is latest if unspecified')
+        string(name: 'frontend_image_tag', defaultValue: "master-latest", description: 'The version of the application to deploy, default is latest if unspecified')
     }
 
     environment {
@@ -66,7 +66,7 @@ pipeline {
                 file(credentialsId: '845ba95a-2c30-4e5f-82b7-f36265434815', variable: 'elasticsearchBackupCredentials')]) {
                     sh "mkdir -p ${elasticsearchSecrets} && cp ${elasticsearchBackupCredentials} ${elasticsearchSecrets}"
                     sh("${helmHome}/helm upgrade ${product_name} cvs -n ${product_name} -i --atomic" +
-                    " --set es.image.tag=${es_image_tag} --set gui.image.tag=${gui_image_tag}" +
+                    " --set es.image.tag=${es_image_tag} --set frontend.image.tag=${frontend_image_tag}" +
                     " --set mysql.username=${mysqlUsername} --set mysql.password=${mysqlPassword}" +
                     " --set mysql.flatdb.username=${flatdbUsername} --set mysql.flatdb.password=${flatdbPassword}")
                 }
