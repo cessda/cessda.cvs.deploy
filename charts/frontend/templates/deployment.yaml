@@ -47,31 +47,35 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env: 
-          - name: SPRING_PROFILES_ACTIVE
-            value: prod
-          - name: JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET
-            valueFrom:
-              secretKeyRef:
-                name: jwt-secret
-                key: secret
-          - name: SPRING_DATASOURCE_URL
-            value: jdbc:mysql://{{ .Release.Name }}-mysql:3306/cvs?useUnicode=true&characterEncoding=utf8&useSSL=false&createDatabaseIfNotExist=true
-          - name: SPRING_DATASOURCE_USERNAME
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Release.Name }}-secret
-                key: username
-          - name: SPRING_DATASOURCE_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Release.Name }}-secret
-                key: password
-          - name: SPRING_DATA_JEST_URI
-            value: http://cvs-es.{{ .Release.Namespace }}.svc.cluster.local:9200
-          - name: SPRING_ELASTICSEARCH_REST_URIS
-            value: http://cvs-es.{{ .Release.Namespace }}.svc.cluster.local:9200
-          - name: JAVA_OPTS
-            value: "{{ .Values.javaOpts }}"
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
+            - name: JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: secret
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://{{ .Release.Name }}-mysql:3306/cvs?useUnicode=true&characterEncoding=utf8&useSSL=false&createDatabaseIfNotExist=true
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-secret
+                  key: username
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-secret
+                  key: password
+            - name: SPRING_DATA_JEST_URI
+              value: http://cvs-es.{{ .Release.Namespace }}.svc.cluster.local:9200
+            - name: SPRING_ELASTICSEARCH_REST_URIS
+              value: http://cvs-es.{{ .Release.Namespace }}.svc.cluster.local:9200
+            - name: SPRING_ELASTICSEARCH_CLUSTER_NAME
+              value: "{{ .Release.Name }}-es"
+            - name: SPRING_ELASTICSEARCH_CLUSTER_NODES
+              value: http://{{ .Release.Name }}-es.{{ .Release.Namespace }}.svc.cluster.local:9300
+            - name: JAVA_OPTS
+              value: "{{ .Values.javaOpts }}"
           ports:
             - name: http
               containerPort: 8080
