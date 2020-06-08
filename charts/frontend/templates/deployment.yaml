@@ -68,12 +68,14 @@ spec:
                   key: password
             - name: SPRING_DATA_JEST_URI
               value: "http://{{ .Release.Name }}-es.{{ .Release.Namespace }}.svc.cluster.local:9200"
+            - name: SPRING_ELASTICSEARCH_REST_URIS
+              value: "http://{{ .Release.Name }}-es.{{ .Release.Namespace }}.svc.cluster.local:9200"
             - name: SPRING_DATA_ELASTICSEARCH_CLUSTER_NAME
               value: "{{ .Release.Name }}-es"
             - name: SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES
               value: "{{ .Release.Name }}-es.{{ .Release.Namespace }}.svc.cluster.local:9300"
-            - name: SPRING_DATA_ELASTICSEARCH_REST_URIS
-              value: "http://{{ .Release.Name }}-es.{{ .Release.Namespace }}.svc.cluster.local:9200"
+            - name: SPRING_OUTPUT_ANSI_ENABLED
+              value: "NEVER"
             - name: JAVA_OPTS
               value: "{{ .Values.javaOpts }}"
           ports:
