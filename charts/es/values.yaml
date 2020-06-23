@@ -5,8 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: eu.gcr.io/cessda-prod/cvs-es
-  tag: master-latest
+  repository: elasticsearch
+  tag:
   pullPolicy: Always
 
 imagePullSecrets: []

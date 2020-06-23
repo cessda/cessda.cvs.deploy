@@ -68,9 +68,10 @@ pipeline {
                 file(credentialsId: '845ba95a-2c30-4e5f-82b7-f36265434815', variable: 'elasticsearchBackupCredentials')]) {
                     sh "mkdir -p ${elasticsearchSecrets} && cp ${elasticsearchBackupCredentials} ${elasticsearchSecrets}"
                     sh("${helmHome}/helm upgrade ${product_name} . -n ${product_name} -i --atomic" +
+                    // By default, the chart uses the standard Elasticsearch image
+                    " --set es.image.repository=eu.gcr.io/cessda-prod/cvs-es"
                     " --set es.image.tag=${es_image_tag} --set frontend.image.tag=${frontend_image_tag}" +
-                    " --set mysql.username=${mysqlUsername} --set mysql.password=${mysqlPassword}" +
-                    " --set mysql.flatdb.username=${flatdbUsername} --set mysql.flatdb.password=${flatdbPassword}")
+                    " --set mysql.username=${mysqlUsername} --set mysql.password=${mysqlPassword}")
                 }
             }
             post {

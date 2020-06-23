@@ -34,11 +34,10 @@ spec:
           privileged: true
     {{- if .Values.elasticsearch.backup.enabled }}
       - name: install-gcs-service-account
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: Always
         command: ["sh", "-c", "bin/elasticsearch-keystore create; bin/elasticsearch-keystore add-file gcs.client.default.credentials_file /var/secrets/google/key.json"]
         securityContext:
-          runAsUser: 0
         volumeMounts:
           - name: gcs-credentials
             mountPath: /var/secrets/google
@@ -49,7 +48,7 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
           - name: ES_JAVA_OPTS
