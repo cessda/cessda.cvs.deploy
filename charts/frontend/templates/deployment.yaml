@@ -78,6 +78,12 @@ spec:
               value: "NEVER"
             - name: JAVA_OPTS
               value: "{{ .Values.javaOpts }}"
+            {{- if .Values.mail.enabled }}
+            - name: SPRING_MAIL_HOST
+              value: "{{ .Release.Name }}-mailrelay"
+            - name: SPRING_MAIL_PORT
+              value: "25"
+            {{- end }}
           ports:
             - name: http
               containerPort: 8080
