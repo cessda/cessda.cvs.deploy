@@ -81,7 +81,7 @@ pipeline {
                         sh "mkdir -p ${elasticsearchSecrets} && cp ${elasticsearchBackupCredentials} ${elasticsearchSecrets}"
                         sh("${helmHome}/helm upgrade ${product_name} . -n ${product_name} -i --atomic" +
                         // By default, the chart uses the standard Elasticsearch image
-                        " --set es.image.repository=eu.gcr.io/cessda-prod/cvs-es"
+                        " --set es.image.repository=eu.gcr.io/cessda-prod/cvs-es" +
                         " --set es.image.tag=${es_image_tag} --set frontend.image.tag=${frontend_image_tag}" +
                         " --set mysql.location.address=${mysqlAddress} --set mysql.username=${mysqlUsername} --set mysql.password=${mysqlPassword}")
                     }
