@@ -71,9 +71,9 @@ pipeline {
         }
         stage('Run Tests') {
             steps {
-                build job: 'cessda.cvs.test', wait: false
+                build job: 'cessda.cvs.test/master', wait: false
             }
-        when { branch 'master' }
+            when { branch 'master' }
         }
     }
 }
