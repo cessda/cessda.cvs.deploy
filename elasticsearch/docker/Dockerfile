@@ -3,7 +3,7 @@ FROM elasticsearch:5.6
 
 # Update base image
 USER root
-RUN apt-get -qq update && apt-get -qq -y upgrade
+RUN apt-get -qq update && apt-get -qq -y upgrade && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install required plugins
 RUN bin/elasticsearch-plugin install repository-gcs -s

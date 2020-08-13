@@ -1,2 +1,3 @@
 # Ignore pulled in Helm dependencies
 *.tgz
+cvs/charts/es/secret/
