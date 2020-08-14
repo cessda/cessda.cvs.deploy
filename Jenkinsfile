@@ -98,7 +98,7 @@ pipeline {
             steps {
                 build job: 'cessda.cvs.test/v2', wait: false
             }
-            when { branch 'v2' }
+            when { environment name: 'cluster', value: 'development-cluster' }
         }
     }
 }
