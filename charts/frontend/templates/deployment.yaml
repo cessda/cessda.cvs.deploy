@@ -95,11 +95,6 @@ spec:
             initialDelaySeconds: 20
             periodSeconds: 15
             failureThreshold: 6
-          livenessProbe:
-            httpGet:
-              path: /management/health
-              port: http
-            initialDelaySeconds: 120
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
