@@ -1,5 +1,5 @@
 # Elasticsearch Base Image
-FROM elasticsearch:6.8.10
+FROM elasticsearch:6.8.13
 
 # Install required plugins
 RUN bin/elasticsearch-plugin install --batch repository-gcs
