@@ -64,12 +64,14 @@ pipeline {
             }
         }
         stage('Deploy CVS') {
+            environment {
+                elasticsearchSecrets = "./charts/es/secret/" 
+            }
             steps {
                 script {
 
                     // By default, the chart uses the standard Elasticsearch image
                     def commonSettings = " --set es.image.repository=eu.gcr.io/cessda-prod/cvs-es --set es.image.tag=${es_image_tag} --set frontend.image.tag=${frontend_image_tag}"
-                    def elasticsearchSecrets = "./charts/es/secret/" 
                     def mysqlAddress
 
                     if (cluster == 'production-cluster') {
