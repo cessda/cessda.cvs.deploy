@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: eu.gcr.io/cessda-prod/cvs-gui
+  repository: eu.gcr.io/cessda-prod/cvs-frontend
   tag: master-latest
   pullPolicy: Always
 
@@ -13,8 +13,10 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-logging:
-  level: INFO
+javaOpts: "-Xmx256m -Xms256m"
+
+mail:
+  enabled: true
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -58,14 +60,25 @@ resources:
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   requests:
     cpu: 500m
-    memory: 2.25Gi
+    memory: 1Gi
   limits:
     cpu: 2
-    memory: 2.25Gi
+    memory: 1Gi
 
 nodeSelector:
   cloud.google.com/gke-nodepool: default-pool
 
 tolerations: []
 
-affinity: {}
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: app
+                operator: In
+                values:
+                  - cvs
+          topologyKey: kubernetes.io/hostname
+        weight: 100

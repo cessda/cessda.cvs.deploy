@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "frontend.fullname" . }}
+  labels:
+    {{- include "frontend.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: cvs
+      {{- include "frontend.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: cvs
+        {{- include "frontend.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "frontend.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: init-ds
+          image: busybox:latest
+          command:
+            - '/bin/sh'
+            - '-c'
+            - |
+                while true
+                do
+                  rt=$(nc -z -w 1 {{ .Release.Name }}-mysql 3306)
+                  if [ $? -eq 0 ]; then
+                    echo "DB is UP"
+                    break
+                  fi
+                  echo "DB is not yet reachable;sleep for 10s before retry"
+                  sleep 10
+                done
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env: 
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
+            - name: JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: secret
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:mysql://{{ .Release.Name }}-mysql:3306/cvs?useUnicode=true&characterEncoding=utf8&useSSL=false&createDatabaseIfNotExist=true"
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-secret
+                  key: username
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-secret
+                  key: password
+            - name: SPRING_DATA_JEST_URI
+              value: "http://{{ .Release.Name }}-es.{{ .Release.Namespace }}.svc.cluster.local:9200"
+            - name: SPRING_ELASTICSEARCH_REST_URIS
+              value: "http://{{ .Release.Name }}-es.{{ .Release.Namespace }}.svc.cluster.local:9200"
+            - name: SPRING_DATA_ELASTICSEARCH_CLUSTER_NAME
+              value: "{{ .Release.Name }}-es"
+            - name: SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES
+              value: "{{ .Release.Name }}-es.{{ .Release.Namespace }}.svc.cluster.local:9300"
+            - name: SPRING_OUTPUT_ANSI_ENABLED
+              value: "NEVER"
+            - name: JAVA_OPTS
+              value: "{{ .Values.javaOpts }}"
+            {{- if .Values.mail.enabled }}
+            - name: SPRING_MAIL_HOST
+              value: "{{ .Release.Name }}-mailrelay"
+            - name: SPRING_MAIL_PORT
+              value: "25"
+            {{- end }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /management/health
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 15
+            failureThreshold: 6
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

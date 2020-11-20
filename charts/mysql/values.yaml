@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 location:
-  address: 172.19.209.3
+  address: 172.19.209.15
   port: 3306
 
 service:
@@ -13,6 +13,3 @@ service:
 # Overridden by CI
 username: mysql
 password: changeme
-flatdb:
-  username: mysql
-  password: changeme
