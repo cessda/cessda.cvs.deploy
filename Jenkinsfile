@@ -65,13 +65,14 @@ pipeline {
         }
         stage('Deploy CVS') {
             environment {
-                elasticsearchSecrets = "./charts/es/secret/" 
+                ELASTICSEARCH_SECRETS = 'charts/es/secret/'
             }
             steps {
                 script {
 
                     // By default, the chart uses the standard Elasticsearch image
-                    def commonSettings = " --set es.image.repository=eu.gcr.io/cessda-prod/cvs-es --set es.image.tag=${es_image_tag} --set frontend.image.tag=${frontend_image_tag}"
+                    def imageSettings = ' --set es.image.repository=eu.gcr.io/cessda-prod/cvs-es --set es.image.tag=${es_image_tag} --set frontend.image.tag=${frontend_image_tag}'
+                    def mysqlSettings = ' --set mysql.location.address=${MYSQL_ADDRESS} --set mysql.username=${MYSQL_USERNAME} --set mysql.password=${MYSQL_PASSWORD}'
                     def mysqlAddress
 
                     if (cluster == 'production-cluster') {
@@ -79,26 +80,28 @@ pipeline {
                         mysqlAddress = "10.119.209.11"
 
                         // For production, set high availability mode for Elasticsearch and the frontend
-                        withCredentials([usernamePassword(credentialsId: '0178c267-e257-49e9-9b0c-fdd6033b5137', passwordVariable: 'mysqlPassword', usernameVariable: 'mysqlUsername'),
-                        file(credentialsId: '331f25ae-554f-4a4a-b879-b944f4035dd5', variable: 'elasticsearchBackupCredentials')]) {
-                            sh "mkdir -p ${elasticsearchSecrets} && cp ${elasticsearchBackupCredentials} ${elasticsearchSecrets}"
-                            sh("${helmHome}/helm upgrade ${product_name} . -n ${product_name} -i --atomic" + commonSettings +
-                            " --set mysql.location.address=${mysqlAddress} --set mysql.username=${mysqlUsername} --set mysql.password=${mysqlPassword}" +
-                            " --set es.elasticsearch.minimumMasterNodes=2 --set es.replicaCount=3 --set frontend.replicaCount=2")
+                        withEnv(["MYSQL_ADDRESS=${mysqlAddress}"]) {
+                            withCredentials([usernamePassword(credentialsId: '0178c267-e257-49e9-9b0c-fdd6033b5137', passwordVariable: 'MYSQL_PASSWORD', usernameVariable: 'MYSQL_USERNAME'),
+                            file(credentialsId: '331f25ae-554f-4a4a-b879-b944f4035dd5', variable: 'ELASTICSEARCH_BACKUP_CREDENTIALS')]) {
+                                sh 'mkdir -p ${ELASTICSEARCH_SECRETS} && cp ${ELASTICSEARCH_BACKUP_CREDENTIALS} ${ELASTICSEARCH_SECRETS}'
+                                sh('${helmHome}/helm upgrade ${product_name} . -n ${product_name} -i --atomic' + imageSettings + mysqlSettings
+                                    ' --set es.elasticsearch.minimumMasterNodes=2 --set es.replicaCount=3 --set frontend.replicaCount=2')
+                            }
                         }
                     } else {
 
                         if (cluster == 'staging-cluster') {
-                            mysqlAddress = "172.19.209.17"
+                            mysqlAddress = '172.19.209.17'
                         } else {
-                            mysqlAddress = "172.19.209.15"
+                            mysqlAddress = '172.19.209.15'
                         }
 
-                        withCredentials([usernamePassword(credentialsId: '733c02c4-428f-4c84-b0e1-b05b44ab21e4', passwordVariable: 'mysqlPassword', usernameVariable: 'mysqlUsername'),
-                        file(credentialsId: '845ba95a-2c30-4e5f-82b7-f36265434815', variable: 'elasticsearchBackupCredentials')]) {
-                            sh "mkdir -p ${elasticsearchSecrets} && cp ${elasticsearchBackupCredentials} ${elasticsearchSecrets}"
-                            sh("${helmHome}/helm upgrade ${product_name} . -n ${product_name} -i --atomic" + commonSettings +
-                            " --set mysql.location.address=${mysqlAddress} --set mysql.username=${mysqlUsername} --set mysql.password=${mysqlPassword}")
+                        withEnv(["MYSQL_ADDRESS=${mysqlAddress}"]) {
+                            withCredentials([usernamePassword(credentialsId: '733c02c4-428f-4c84-b0e1-b05b44ab21e4', passwordVariable: 'MYSQL_PASSWORD', usernameVariable: 'MYSQL_USERNAME'),
+                            file(credentialsId: '845ba95a-2c30-4e5f-82b7-f36265434815', variable: 'ELASTICSEARCH_BACKUP_CREDENTIALS')]) {
+                                sh 'mkdir -p ${ELASTICSEARCH_SECRETS} && cp ${ELASTICSEARCH_BACKUP_CREDENTIALS} ${ELASTICSEARCH_SECRETS}'
+                                sh '${helmHome}/helm upgrade ${product_name} . -n ${product_name} -i --atomic' + imageSettings + mysqlSettings
+                            }
                         }
                     }
                 }
@@ -106,15 +109,21 @@ pipeline {
             post {
                 always {
                     // Clear secrets directory
-                    sh "rm -rf ${elasticsearchSecrets}"
+                    sh 'rm -rf ${ELASTICSEARCH_SECRETS}'
                 }
             }
+            when { branch 'master' }
         }
         stage('Run Tests') {
             steps {
                 build job: 'cessda.cvs.test/master', wait: false
             }
-            when { environment name: 'cluster', value: 'development-cluster' }
+            when { 
+                allOf { 
+                    branch 'master'
+                    environment name: 'cluster', value: 'development-cluster' 
+                } 
+            }
         }
     }
 }
