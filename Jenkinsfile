@@ -84,7 +84,7 @@ pipeline {
                             withCredentials([usernamePassword(credentialsId: '0178c267-e257-49e9-9b0c-fdd6033b5137', passwordVariable: 'MYSQL_PASSWORD', usernameVariable: 'MYSQL_USERNAME'),
                             file(credentialsId: '331f25ae-554f-4a4a-b879-b944f4035dd5', variable: 'ELASTICSEARCH_BACKUP_CREDENTIALS')]) {
                                 sh 'mkdir -p ${ELASTICSEARCH_SECRETS} && cp ${ELASTICSEARCH_BACKUP_CREDENTIALS} ${ELASTICSEARCH_SECRETS}'
-                                sh('${helmHome}/helm upgrade ${product_name} . -n ${product_name} -i --atomic' + imageSettings + mysqlSettings
+                                sh('${helmHome}/helm upgrade ${product_name} . -n ${product_name} -i --atomic' + imageSettings + mysqlSettings +
                                     ' --set es.elasticsearch.minimumMasterNodes=2 --set es.replicaCount=3 --set frontend.replicaCount=2')
                             }
                         }
