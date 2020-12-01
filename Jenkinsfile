@@ -12,10 +12,11 @@ pipeline {
 
     environment {
         product_name = "cvs-v2"
-        es_image_tag = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+        es_image_tag = "6.8.13"
         kubeScoreHome = tool 'kube-score'
         helmHome = tool 'helm'
     }
+
     agent any
 
     stages {
@@ -73,35 +74,26 @@ pipeline {
                     // By default, the chart uses the standard Elasticsearch image
                     def imageSettings = ' --set es.image.repository=eu.gcr.io/cessda-prod/cvs-es --set es.image.tag=${es_image_tag} --set frontend.image.tag=${frontend_image_tag}'
                     def mysqlSettings = ' --set mysql.location.address=${MYSQL_ADDRESS} --set mysql.username=${MYSQL_USERNAME} --set mysql.password=${MYSQL_PASSWORD}'
-                    def mysqlAddress
+                    def productionSettings = ''
+                    def mysqlAddress // Defined based on the cluster CVS is deployed to
 
                     if (cluster == 'production-cluster') {
-
                         mysqlAddress = "10.119.209.11"
-
-                        // For production, set high availability mode for Elasticsearch and the frontend
-                        withEnv(["MYSQL_ADDRESS=${mysqlAddress}"]) {
-                            withCredentials([usernamePassword(credentialsId: '0178c267-e257-49e9-9b0c-fdd6033b5137', passwordVariable: 'MYSQL_PASSWORD', usernameVariable: 'MYSQL_USERNAME'),
-                            file(credentialsId: '331f25ae-554f-4a4a-b879-b944f4035dd5', variable: 'ELASTICSEARCH_BACKUP_CREDENTIALS')]) {
-                                sh 'mkdir -p ${ELASTICSEARCH_SECRETS} && cp ${ELASTICSEARCH_BACKUP_CREDENTIALS} ${ELASTICSEARCH_SECRETS}'
-                                sh('${helmHome}/helm upgrade ${product_name} . -n ${product_name} -i --atomic' + imageSettings + mysqlSettings +
-                                    ' --set es.elasticsearch.minimumMasterNodes=2 --set es.replicaCount=3 --set frontend.replicaCount=2')
-                            }
-                        }
+                        // Enable high availability mode in Elasticsearch and the frontend
+                        productionSettings = ' --set es.elasticsearch.minimumMasterNodes=2 --set es.replicaCount=3 --set frontend.replicaCount=2'
+                    } else if (cluster == 'staging-cluster') {
+                        mysqlAddress = '172.19.209.17'
                     } else {
+                        mysqlAddress = '172.19.209.15'
+                    }
 
-                        if (cluster == 'staging-cluster') {
-                            mysqlAddress = '172.19.209.17'
-                        } else {
-                            mysqlAddress = '172.19.209.15'
-                        }
-
-                        withEnv(["MYSQL_ADDRESS=${mysqlAddress}"]) {
-                            withCredentials([usernamePassword(credentialsId: '733c02c4-428f-4c84-b0e1-b05b44ab21e4', passwordVariable: 'MYSQL_PASSWORD', usernameVariable: 'MYSQL_USERNAME'),
-                            file(credentialsId: '845ba95a-2c30-4e5f-82b7-f36265434815', variable: 'ELASTICSEARCH_BACKUP_CREDENTIALS')]) {
-                                sh 'mkdir -p ${ELASTICSEARCH_SECRETS} && cp ${ELASTICSEARCH_BACKUP_CREDENTIALS} ${ELASTICSEARCH_SECRETS}'
-                                sh '${helmHome}/helm upgrade ${product_name} . -n ${product_name} -i --atomic' + imageSettings + mysqlSettings
-                            }
+                    withEnv(["MYSQL_ADDRESS=${mysqlAddress}"]) {
+                        withCredentials([
+                            usernamePassword(credentialsId: '733c02c4-428f-4c84-b0e1-b05b44ab21e4', passwordVariable: 'MYSQL_PASSWORD', usernameVariable: 'MYSQL_USERNAME'),
+                            file(credentialsId: '845ba95a-2c30-4e5f-82b7-f36265434815', variable: 'ELASTICSEARCH_BACKUP_CREDENTIALS')
+                        ]) {
+                            sh 'mkdir -p ${ELASTICSEARCH_SECRETS} && cp ${ELASTICSEARCH_BACKUP_CREDENTIALS} ${ELASTICSEARCH_SECRETS}'
+                            sh '${helmHome}/helm upgrade ${product_name} . -n ${product_name} -i --atomic' + imageSettings + mysqlSettings + productionSettings
                         }
                     }
                 }
