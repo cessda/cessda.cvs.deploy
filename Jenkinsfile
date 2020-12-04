@@ -32,6 +32,7 @@ pipeline {
                     sh("gcloud container clusters get-credentials ${cluster} --zone=${zone}")
                 }
             }
+            when { branch 'master' }
         }
         stage('Update CVS Elasticsearch') {
             environment {
@@ -45,6 +46,7 @@ pipeline {
                     sh("docker push ${image_tag}")
                 }
             }
+            when { branch 'master' }
         }
         stage('Run kube-score') {
             steps {
@@ -64,6 +66,7 @@ pipeline {
                     fi;
                 '''
             }
+            when { branch 'master' }
         }
         stage('Deploy CVS') {
             environment {
