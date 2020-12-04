@@ -7,6 +7,7 @@ pipeline {
 
     parameters {
         string(name: 'frontend_image_tag', defaultValue: "master-latest", description: 'The version of the application to deploy, default is latest if unspecified')
+        string(name: 'documentation_image_tag', defaultValue: "master-latest", description: 'The version of the documentation to deploy, default is latest if unspecified')
         choice choices: ['development-cluster', 'staging-cluster', 'production-cluster'], description: 'Choose which cluster to deploy to', name: 'cluster'
     }
 
