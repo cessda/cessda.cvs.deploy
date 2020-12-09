@@ -79,10 +79,14 @@ pipeline {
                     def imageSettings = ' --set es.image.repository=eu.gcr.io/cessda-prod/cvs-es --set es.image.tag=${es_image_tag} --set frontend.image.tag=${frontend_image_tag}'
                     def mysqlSettings = ' --set mysql.location.address=${MYSQL_ADDRESS} --set mysql.username=${MYSQL_USERNAME} --set mysql.password=${MYSQL_PASSWORD}'
                     def productionSettings = ''
+                    def elasticsearchCredentialsId = '845ba95a-2c30-4e5f-82b7-f36265434815'
                     def mysqlAddress // Defined based on the cluster CVS is deployed to
+                    def mysqlCredentialsId = '733c02c4-428f-4c84-b0e1-b05b44ab21e4'
 
                     if (cluster == 'production-cluster') {
-                        mysqlAddress = "10.119.209.11"
+                        elasticsearchCredentialsId = '331f25ae-554f-4a4a-b879-b944f4035dd5'
+                        mysqlAddress = '10.119.209.11'
+                        mysqlCredentialsId = '0178c267-e257-49e9-9b0c-fdd6033b5137'
                         // Enable high availability mode in Elasticsearch and the frontend
                         productionSettings = ' --set es.elasticsearch.minimumMasterNodes=2 --set es.replicaCount=3 --set frontend.replicaCount=2'
                     } else if (cluster == 'staging-cluster') {
@@ -93,8 +97,8 @@ pipeline {
 
                     withEnv(["MYSQL_ADDRESS=${mysqlAddress}"]) {
                         withCredentials([
-                            usernamePassword(credentialsId: '733c02c4-428f-4c84-b0e1-b05b44ab21e4', passwordVariable: 'MYSQL_PASSWORD', usernameVariable: 'MYSQL_USERNAME'),
-                            file(credentialsId: '845ba95a-2c30-4e5f-82b7-f36265434815', variable: 'ELASTICSEARCH_BACKUP_CREDENTIALS')
+                            usernamePassword(credentialsId: mysqlCredentialsId, passwordVariable: 'MYSQL_PASSWORD', usernameVariable: 'MYSQL_USERNAME'),
+                            file(credentialsId: elasticsearchCredentialsId, variable: 'ELASTICSEARCH_BACKUP_CREDENTIALS')
                         ]) {
                             sh 'mkdir -p ${ELASTICSEARCH_SECRETS} && cp ${ELASTICSEARCH_BACKUP_CREDENTIALS} ${ELASTICSEARCH_SECRETS}'
                             sh '${helmHome}/helm upgrade ${product_name} . -n ${product_name} -i --atomic' + imageSettings + mysqlSettings + productionSettings
