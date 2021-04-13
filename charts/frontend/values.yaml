@@ -13,7 +13,9 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-javaOpts: "-Xmx256m -Xms256m"
+env:
+  - name: JHIPSTER_LOGGING_USE_JSON_FORMAT
+    value: "true"
 
 mail:
   enabled: true
