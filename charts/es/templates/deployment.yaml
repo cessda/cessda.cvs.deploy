@@ -62,7 +62,12 @@ spec:
             initialDelaySeconds: 30
             timeoutSeconds: 10
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 25m
+              memory: 64Mi
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
