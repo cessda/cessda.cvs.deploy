@@ -15,6 +15,8 @@ spec:
       annotations:
         checksum/config: {{ .Files.Get "config/elasticsearch.yml" | sha256sum }}
         checksum/secret: {{ .Files.Get "secret/key.json" | sha256sum }}
+        # Local storage is used to configure GCS credentials, can be safely evicted
+        "cluster-autoscaler.kubernetes.io/safe-to-evict": "true"
       labels:
         {{- include "es.selectorLabels" . | nindent 8 }}
     spec:
