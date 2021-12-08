@@ -76,7 +76,7 @@ spec:
               value: "{{ .Release.Name }}-es.{{ .Release.Namespace }}.svc.cluster.local:9300"
             - name: SPRING_OUTPUT_ANSI_ENABLED
               value: "NEVER"
-            - name: JAVA_OPTS
+            - name: JAVA_TOOL_OPTIONS
               value: "{{ .Values.javaOpts }}"
             {{- if .Values.mail.enabled }}
             - name: SPRING_MAIL_HOST

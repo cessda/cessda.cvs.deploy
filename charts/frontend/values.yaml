@@ -60,10 +60,10 @@ resources:
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   requests:
     cpu: 200m
-    memory: 1Gi
+    memory: 512Mi
   limits:
     cpu: 2
-    memory: 1Gi
+    memory: 512Mi
 
 nodeSelector:
   cloud.google.com/gke-nodepool: default-pool
