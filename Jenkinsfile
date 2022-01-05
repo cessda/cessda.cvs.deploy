@@ -79,7 +79,7 @@ pipeline {
                     def imageSettings = ' --set es.image.repository=eu.gcr.io/cessda-prod/cvs-es --set es.image.tag=${es_image_tag}' + 
                         ' --set frontend.image.tag=${frontend_image_tag} --set userguide.image.tag=${userguide_image_tag}'
                     def mysqlSettings = ' --set mysql.location.address=${MYSQL_ADDRESS} --set mysql.username=${MYSQL_USERNAME} --set mysql.password=${MYSQL_PASSWORD}'
-                    def productionSettings = ''
+                    def productionSettings = ' --set frontend.replicaCount=2'
                     def elasticsearchCredentialsId = '845ba95a-2c30-4e5f-82b7-f36265434815'
                     def mysqlAddress // Defined based on the cluster CVS is deployed to
                     def mysqlCredentialsId = '733c02c4-428f-4c84-b0e1-b05b44ab21e4'
@@ -89,7 +89,7 @@ pipeline {
                         mysqlAddress = '10.119.209.11'
                         mysqlCredentialsId = '0178c267-e257-49e9-9b0c-fdd6033b5137'
                         // Enable high availability mode in Elasticsearch and the frontend
-                        productionSettings = ' --set es.elasticsearch.minimumMasterNodes=2 --set es.replicaCount=3 --set frontend.replicaCount=1'
+                        productionSettings = ' --set es.elasticsearch.minimumMasterNodes=2 --set es.replicaCount=3 --set frontend.replicaCount=2'
                     } else if (cluster == 'staging-cluster') {
                         mysqlAddress = '172.19.209.17'
                     } else {
