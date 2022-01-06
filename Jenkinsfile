@@ -6,14 +6,15 @@ pipeline {
     }
 
     parameters {
+        string(name: 'contentguide_image_tag', defaultValue: 'master-latest', description: 'The version of the content guide to deploy, default is latest if unspecified')
         string(name: 'frontend_image_tag', defaultValue: "master-latest", description: 'The version of the application to deploy, default is latest if unspecified')
         string(name: 'userguide_image_tag', defaultValue: "master-latest", description: 'The version of the userguide to deploy, default is latest if unspecified')
         choice choices: ['development-cluster', 'staging-cluster', 'production-cluster'], description: 'Choose which cluster to deploy to', name: 'cluster'
     }
 
     environment {
-        product_name = "cvs-v2"
-        es_image_tag = "6.8.13"
+        product_name = 'cvs-v2'
+        es_image_tag = '6.8'
         kubeScoreHome = tool 'kube-score'
         helmHome = tool 'helm'
     }
@@ -77,7 +78,8 @@ pipeline {
 
                     // By default, the chart uses the standard Elasticsearch image, override it here with the CESSDA specific variant
                     def imageSettings = ' --set es.image.repository=eu.gcr.io/cessda-prod/cvs-es --set es.image.tag=${es_image_tag}' + 
-                        ' --set frontend.image.tag=${frontend_image_tag} --set userguide.image.tag=${userguide_image_tag}'
+                        ' --set contentguide.image.tag=${contentguide_image_tag} --set frontend.image.tag=${frontend_image_tag} ' +
+                        ' --set userguide.image.tag=${userguide_image_tag}'
                     def mysqlSettings = ' --set mysql.location.address=${MYSQL_ADDRESS} --set mysql.username=${MYSQL_USERNAME} --set mysql.password=${MYSQL_PASSWORD}'
                     def productionSettings = ' --set frontend.replicaCount=2'
                     def elasticsearchCredentialsId = '845ba95a-2c30-4e5f-82b7-f36265434815'

@@ -1,13 +1,14 @@
-# Default values for documentation.
+# Default values for contentguide.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: eu.gcr.io/cessda-prod/cvs-documentation
-  tag: master-latest
+  repository: eu.gcr.io/cessda-prod/cvs-contentguide
   pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "master-latest"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -15,10 +16,14 @@ fullnameOverride: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
-  create: false
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name:
+  name: ""
+
+podAnnotations: {}
 
 podSecurityContext: {}
   # fsGroup: 2000
@@ -31,28 +36,27 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-logging:
-  parser:
-    enabled: true
-
 service:
   type: ClusterIP
   port: 80
 
 ingress:
   enabled: false
+  className: ""
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
     - host: chart-example.local
-      paths: []
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
 
-resources:
+resources: 
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -63,6 +67,14 @@ resources:
   requests:
     cpu: 0
     memory: 16Mi
+
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
 
 nodeSelector:
   cloud.google.com/gke-nodepool: default-pool
