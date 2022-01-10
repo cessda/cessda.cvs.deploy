@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: eu.gcr.io/cessda-prod/cvs-documentation
+  repository: eu.gcr.io/cessda-prod/cvs-userguide
   tag: master-latest
   pullPolicy: Always
 
