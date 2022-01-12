@@ -79,6 +79,8 @@ spec:
             - name: JAVA_TOOL_OPTIONS
               value: "{{ .Values.javaOpts }}"
             {{- if .Values.mail.enabled }}
+            - name: JHIPSTER_MAIL_BASE_URL
+              value: {{ .Values.mail.baseURL | quote }}
             - name: SPRING_MAIL_HOST
               value: "{{ .Release.Name }}-mailrelay"
             - name: SPRING_MAIL_PORT

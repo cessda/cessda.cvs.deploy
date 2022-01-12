@@ -91,9 +91,10 @@ pipeline {
                         mysqlAddress = '10.119.209.11'
                         mysqlCredentialsId = '0178c267-e257-49e9-9b0c-fdd6033b5137'
                         // Enable high availability mode in Elasticsearch and the frontend
-                        productionSettings = ' --set es.elasticsearch.minimumMasterNodes=2 --set es.replicaCount=3 --set frontend.replicaCount=2'
+                        productionSettings = ' --set es.elasticsearch.minimumMasterNodes=2 --set es.replicaCount=3 --set frontend.replicaCount=2 --set frontend.mail.baseURL=https://vocabularies.cessda.eu/'
                     } else if (cluster == 'staging-cluster') {
                         mysqlAddress = '172.19.209.17'
+                        productionSettings = ' --set frontend.replicaCount=2 --set frontend.mail.baseURL=https://vocabularies-staging.cessda.eu/'
                     } else {
                         mysqlAddress = '172.19.209.15'
                     }
