@@ -16,7 +16,7 @@ fullnameOverride: ""
 javaOpts: "-Xmx256m -Xms256m"
 
 mail:
-  baseURL: "https://vocabularies-dev.cessda.eu/"
+  baseURL: "https://vocabularies-dev.cessda.eu"
   enabled: true
 
 serviceAccount:
