@@ -58,6 +58,7 @@ pipeline {
         }
         stage('Create Namespace') {
             steps {
+                withEnv(["product_name=${product_name}"]) {
                 sh script: '''
                     set -eu
                     if kubectl get ns $product_name
@@ -67,6 +68,7 @@ pipeline {
                             kubectl create namespace $product_name
                     fi;
                 '''
+                }
             }
             when { branch 'master' }
         }
