@@ -59,7 +59,7 @@ pipeline {
         stage('Create Namespace') {
             steps {
                 sh script: '''
-                    set -euo pipefail
+                    set -eu
                     if kubectl get ns $product_name
                         then
                             echo "Namespace already exists"
