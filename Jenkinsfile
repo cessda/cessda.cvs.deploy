@@ -88,7 +88,7 @@ pipeline {
                     def elasticsearchCredentialsId = '845ba95a-2c30-4e5f-82b7-f36265434815'
                     def mysqlAddress // Defined based on the cluster CVS is deployed to
                     def mysqlCredentialsId = '733c02c4-428f-4c84-b0e1-b05b44ab21e4'
-                    product_name = 'cvs-test'
+                    product_name = 'cvs-v2'
 
                     if (cluster == 'production-cluster') {
                         elasticsearchCredentialsId = '331f25ae-554f-4a4a-b879-b944f4035dd5'
