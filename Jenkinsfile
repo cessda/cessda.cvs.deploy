@@ -85,6 +85,7 @@ pipeline {
                     def elasticsearchCredentialsId = '845ba95a-2c30-4e5f-82b7-f36265434815'
                     def mysqlAddress // Defined based on the cluster CVS is deployed to
                     def mysqlCredentialsId = '733c02c4-428f-4c84-b0e1-b05b44ab21e4'
+                    def product_name = 'cvs-v2'
 
                     if (cluster == 'production-cluster') {
                         elasticsearchCredentialsId = '331f25ae-554f-4a4a-b879-b944f4035dd5'
@@ -92,6 +93,7 @@ pipeline {
                         mysqlCredentialsId = '0178c267-e257-49e9-9b0c-fdd6033b5137'
                         // Enable high availability mode in Elasticsearch and the frontend
                         productionSettings = ' --set es.elasticsearch.minimumMasterNodes=2 --set es.replicaCount=3 --set frontend.replicaCount=2 --set frontend.mail.baseURL=https://vocabularies.cessda.eu'
+                        product_name = 'cvs'
                     } else if (cluster == 'staging-cluster') {
                         mysqlAddress = '172.19.209.17'
                         productionSettings = ' --set frontend.replicaCount=2 --set frontend.mail.baseURL=https://vocabularies-staging.cessda.eu'
