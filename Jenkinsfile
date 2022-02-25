@@ -1,3 +1,4 @@
+def product_name = 'cvs-v2'
 pipeline {
 
     options {
@@ -13,7 +14,6 @@ pipeline {
     }
 
     environment {
-        product_name = 'cvs-v2'
         es_image_tag = '6.8'
         kubeScoreHome = tool 'kube-score'
         helmHome = tool 'helm'
@@ -59,6 +59,7 @@ pipeline {
         stage('Create Namespace') {
             steps {
                 sh script: '''
+                    set -euo pipefail
                     if kubectl get ns $product_name
                         then
                             echo "Namespace already exists"
@@ -101,7 +102,7 @@ pipeline {
                         mysqlAddress = '172.19.209.15'
                     }
 
-                    withEnv(["MYSQL_ADDRESS=${mysqlAddress}"]) {
+                    withEnv(["MYSQL_ADDRESS=${mysqlAddress}", "product_name=${product_name}"]) {
                         withCredentials([
                             usernamePassword(credentialsId: mysqlCredentialsId, passwordVariable: 'MYSQL_PASSWORD', usernameVariable: 'MYSQL_USERNAME'),
                             file(credentialsId: elasticsearchCredentialsId, variable: 'ELASTICSEARCH_BACKUP_CREDENTIALS')
