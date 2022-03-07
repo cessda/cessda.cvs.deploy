@@ -99,7 +99,7 @@ pipeline {
                         product_name = 'cvs'
                     } else if (cluster == 'staging-cluster') {
                         mysqlAddress = '172.19.209.17'
-                        productionSettings = ' --set frontend.replicaCount=2 --set frontend.mail.baseURL=https://vocabularies-staging.cessda.eu'
+                        productionSettings = ' --set frontend.mail.baseURL=https://vocabularies-staging.cessda.eu'
                     } else {
                         mysqlAddress = '172.19.209.15'
                     }
