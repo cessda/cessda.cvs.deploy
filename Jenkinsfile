@@ -84,7 +84,7 @@ pipeline {
                         ' --set contentguide.image.tag=${contentguide_image_tag} --set frontend.image.tag=${frontend_image_tag} ' +
                         ' --set userguide.image.tag=${userguide_image_tag}'
                     def mysqlSettings = ' --set mysql.location.address=${MYSQL_ADDRESS} --set mysql.username=${MYSQL_USERNAME} --set mysql.password=${MYSQL_PASSWORD}'
-                    def productionSettings = ' --set frontend.replicaCount=2'
+                    def productionSettings = ''
                     def elasticsearchCredentialsId = '845ba95a-2c30-4e5f-82b7-f36265434815'
                     def mysqlAddress // Defined based on the cluster CVS is deployed to
                     def mysqlCredentialsId = '733c02c4-428f-4c84-b0e1-b05b44ab21e4'
