@@ -59,4 +59,15 @@ nodeSelector:
 
 tolerations: []
 
-affinity: {}
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: app
+                operator: In
+                values:
+                  - cvs-es
+          topologyKey: kubernetes.io/hostname
+        weight: 100

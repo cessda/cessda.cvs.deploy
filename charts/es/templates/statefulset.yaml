@@ -18,6 +18,7 @@ spec:
         # Local storage is used to configure GCS credentials, can be safely evicted
         "cluster-autoscaler.kubernetes.io/safe-to-evict": "true"
       labels:
+        app: cvs-es
         {{- include "es.selectorLabels" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
