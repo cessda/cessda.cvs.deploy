@@ -101,7 +101,7 @@ pipeline {
                         mysqlAddress = '172.19.209.17'
                         productionSettings = ' --set frontend.mail.baseURL=https://vocabularies-staging.cessda.eu'
                     } else {
-                        mysqlAddress = '172.19.209.15'
+                        mysqlAddress = '172.19.209.43'
                     }
 
                     withEnv(["MYSQL_ADDRESS=${mysqlAddress}", "product_name=${product_name}"]) {
