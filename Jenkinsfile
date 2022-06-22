@@ -98,12 +98,11 @@ pipeline {
                         productionSettings = ' --set es.elasticsearch.minimumMasterNodes=2 --set es.replicaCount=3 --set frontend.replicaCount=2 --set frontend.mail.baseURL=https://vocabularies.cessda.eu'
                         product_name = 'cvs'
                     } else if (cluster == 'staging-cluster') {
-                        mysqlAddress = '172.19.209.17'
+                        mysqlAddress = '172.19.209.45'
                         productionSettings = ' --set frontend.mail.baseURL=https://vocabularies-staging.cessda.eu'
                     } else {
                         mysqlAddress = '172.19.209.43'
                         mysqlCredentialsId = '5788c551-7669-421a-be05-ef6428292fd8'
-                        
                     }
 
                     withEnv(["MYSQL_ADDRESS=${mysqlAddress}", "product_name=${product_name}"]) {
