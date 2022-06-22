@@ -19,6 +19,9 @@ mail:
   baseURL: "https://vocabularies-dev.cessda.eu"
   enabled: true
 
+logging:
+  level:
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true

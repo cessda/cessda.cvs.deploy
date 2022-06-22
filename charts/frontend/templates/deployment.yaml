@@ -46,7 +46,11 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env: 
+          env:
+          {{- if .Values.logging.level }}
+            - name: LOGGING_LEVEL_ROOT
+              value: {{ .Values.logging.level }}
+          {{- end }}
             - name: SPRING_PROFILES_ACTIVE
               value: prod
             - name: JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET
@@ -78,6 +82,8 @@ spec:
               value: "NEVER"
             - name: JAVA_TOOL_OPTIONS
               value: "{{ .Values.javaOpts }}"
+            - name: JHIPSTER_LOGGING_USE_JSON_FORMAT
+              value: "true"
             {{- if .Values.mail.enabled }}
             - name: JHIPSTER_MAIL_BASE_URL
               value: {{ .Values.mail.baseURL | quote }}
