@@ -20,7 +20,7 @@ mail:
   enabled: true
 
 logging:
-  level:
+  level: INFO
 
 serviceAccount:
   # Specifies whether a service account should be created
