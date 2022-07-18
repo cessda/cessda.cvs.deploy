@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ include "frontend.fullname" . }}
   labels:
@@ -10,6 +10,7 @@ spec:
     matchLabels:
       app: cvs
       {{- include "frontend.selectorLabels" . | nindent 6 }}
+  serviceName: {{ include "frontend.fullname" . }}
   template:
     metadata:
       labels:
@@ -105,6 +106,16 @@ spec:
             failureThreshold: 6
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: frontend-storage
+              mountPath: /app/resources/static/content/images/
+              subPath: images
+            - name: frontend-storage
+              mountPath: /app/resources/static/content/file/
+              subPath: file
+            - name: frontend-storage
+              mountPath: /app/resources/static/content/vocabularies/
+              subPath: vocabularies
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -117,3 +128,12 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+  volumeClaimTemplates:
+    - metadata:
+        name: frontend-storage
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
