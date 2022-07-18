@@ -108,8 +108,11 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             - name: frontend-storage
-              mountPath: /app/resources/static/content/images/
-              subPath: images
+              mountPath: /app/resources/static/content/images/agency/
+              subPath: images/agency
+            - name: frontend-storage
+              mountPath: /app/resources/static/content/images/license/
+              subPath: images/license
             - name: frontend-storage
               mountPath: /app/resources/static/content/file/
               subPath: file
