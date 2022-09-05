@@ -1,5 +1,9 @@
 # Ignore pulled in Helm dependencies
-charts/*.tgz
+cvs/charts/*.tgz
 
 # Ignore GCP service account credentials
 charts/es/secret/
+
+# IDE settings
+.vs/
+.vscode/
