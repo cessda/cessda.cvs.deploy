@@ -11,6 +11,7 @@ pipeline {
         string(name: 'frontend_image_tag', defaultValue: "master-latest", description: 'The version of the application to deploy, default is latest if unspecified')
         string(name: 'userguide_image_tag', defaultValue: "master-latest", description: 'The version of the userguide to deploy, default is latest if unspecified')
         choice choices: ['development-cluster', 'staging-cluster', 'production-cluster'], description: 'Choose which cluster to deploy to', name: 'cluster'
+        booleanParam defaultValue: true, description: 'Deploy the CVS application, uncheck to only deploy the documentation.', name: 'deployApp'
     }
 
     environment {
@@ -52,8 +53,8 @@ pipeline {
         stage('Run kube-score') {
             steps {
                 sh "${helmHome}/helm plugin install https://github.com/hayorov/helm-gcs || true"
-                sh "${helmHome}/helm dependency update ."
-                sh "${helmHome}/helm template ${product_name} . | ${kubeScoreHome}/kube-score score - || true"
+                sh "${helmHome}/helm dependency update cvs"
+                sh "${helmHome}/helm template ${product_name} cvs | ${kubeScoreHome}/kube-score score - || true"
             }
         }
         stage('Create Namespace') {
@@ -81,14 +82,12 @@ pipeline {
 
                     // By default, the chart uses the standard Elasticsearch image, override it here with the CESSDA specific variant
                     def imageSettings = ' --set es.image.repository=eu.gcr.io/cessda-prod/cvs-es --set es.image.tag=${es_image_tag}' + 
-                        ' --set contentguide.image.tag=${contentguide_image_tag} --set frontend.image.tag=${frontend_image_tag} ' +
-                        ' --set userguide.image.tag=${userguide_image_tag}'
+                        '  --set frontend.image.tag=${frontend_image_tag} '
                     def mysqlSettings = ' --set mysql.location.address=${MYSQL_ADDRESS} --set mysql.username=${MYSQL_USERNAME} --set mysql.password=${MYSQL_PASSWORD}'
                     def productionSettings = ' --set frontend.mail.baseURL=https://vocabularies-dev.cessda.eu'
                     def elasticsearchCredentialsId = '845ba95a-2c30-4e5f-82b7-f36265434815'
                     def mysqlAddress // Defined based on the cluster CVS is deployed to
                     def mysqlCredentialsId = '733c02c4-428f-4c84-b0e1-b05b44ab21e4'
-                    product_name = 'cvs-v2'
 
                     if (cluster == 'production-cluster') {
                         elasticsearchCredentialsId = '331f25ae-554f-4a4a-b879-b944f4035dd5'
@@ -112,7 +111,8 @@ pipeline {
                             file(credentialsId: elasticsearchCredentialsId, variable: 'ELASTICSEARCH_BACKUP_CREDENTIALS')
                         ]) {
                             sh 'set -u; mkdir -p ${ELASTICSEARCH_SECRETS}; cp ${ELASTICSEARCH_BACKUP_CREDENTIALS} ${ELASTICSEARCH_SECRETS}'
-                            sh 'set -u; ${helmHome}/helm upgrade ${product_name} . -n ${product_name} -i --atomic' + imageSettings + mysqlSettings + productionSettings
+                            sh 'set -u; ${helmHome}/helm upgrade ${product_name} cvs -n ${product_name} -i --atomic' + imageSettings + mysqlSettings + productionSettings
+                            
                         }
                     }
                 }
@@ -121,6 +121,22 @@ pipeline {
                 always {
                     // Clear secrets directory
                     sh 'rm -rf ${ELASTICSEARCH_SECRETS}'
+                }
+            }
+            when { 
+                allOf {
+                    branch 'master'
+                    environment name: 'deployApp', value: 'true'
+                }
+            }
+        }
+        stage('Deploy Documentation'){
+            steps{
+                script {
+                    withEnv(["product_name=${product_name}"]) {
+                        sh 'set -u; ${helmHome}/helm upgrade ${product_name}-doc cvs-doc -n ${product_name} -i --atomic' + 
+                            ' --set contentguide.image.tag=${contentguide_image_tag} --set userguide.image.tag=${userguide_image_tag}'
+                    }
                 }
             }
             when { branch 'master' }
