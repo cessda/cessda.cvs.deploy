@@ -75,7 +75,7 @@ pipeline {
         }
         stage('Deploy CVS') {
             environment {
-                ELASTICSEARCH_SECRETS = 'charts/es/secret/'
+                ELASTICSEARCH_SECRETS = 'cvs/charts/es/secret/'
             }
             steps {
                 script {
