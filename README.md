@@ -38,7 +38,7 @@ Frameworks used in other components are mentioned in their respective readme fil
 
 ## Deploying
 
-All deployments to the CESSDA infrastructure are done via Jenkins. This is to ensure continuous deployments with known centralised configuration. Deployment to the non-production environments (development, staging) is automated - checking code in to the Master branch causes the application to be built and deployed via a Jenkins pipeline (provided the various quality checks are successful). Deployment to production is a manual process, started by an administrator running a Jenkins job.
+All deployments to the CESSDA infrastructure are done via Jenkins. This is to ensure continuous deployments with known centralised configuration. Deployment to the non-production environments (development, staging) is automated - checking code in to the main branch causes the application to be built and deployed via a Jenkins pipeline (provided the various quality checks are successful). Deployment to production is a manual process, started by an administrator running a Jenkins job.
 
 ## Technical Details
 
@@ -58,7 +58,7 @@ Details for other components can be viewed in their respective repositories.
 
 ## Resources
 
-* [Issue tracker](https://bitbucket.org/cessda/cessda.cvs.gui/issues)
+* [Issue tracker](https://github.com/cessda/cessda.cvs.two/issues)
 
 ## Authors
 

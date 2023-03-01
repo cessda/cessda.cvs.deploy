@@ -7,9 +7,9 @@ pipeline {
     }
 
     parameters {
-        string(name: 'contentguide_image_tag', defaultValue: 'master-latest', description: 'The version of the content guide to deploy, default is latest if unspecified')
-        string(name: 'frontend_image_tag', defaultValue: "master-latest", description: 'The version of the application to deploy, default is latest if unspecified')
-        string(name: 'userguide_image_tag', defaultValue: "master-latest", description: 'The version of the userguide to deploy, default is latest if unspecified')
+        string(name: 'contentguide_image_tag', defaultValue: 'main-latest', description: 'The version of the content guide to deploy, default is latest if unspecified')
+        string(name: 'frontend_image_tag', defaultValue: "main-latest", description: 'The version of the application to deploy, default is latest if unspecified')
+        string(name: 'userguide_image_tag', defaultValue: "main-latest", description: 'The version of the userguide to deploy, default is latest if unspecified')
         choice choices: ['development-cluster', 'staging-cluster', 'production-cluster'], description: 'Choose which cluster to deploy to', name: 'cluster'
         booleanParam defaultValue: true, description: 'Deploy the CVS application, uncheck to only deploy the documentation.', name: 'deployApp'
     }
@@ -34,7 +34,7 @@ pipeline {
                     sh "gcloud container clusters get-credentials ${cluster} --zone=${zone}"
                 }
             }
-            when { branch 'master' }
+            when { branch 'main' }
         }
         stage('Update CVS Elasticsearch') {
             environment {
@@ -48,7 +48,7 @@ pipeline {
                     sh "docker push ${image_tag}"
                 }
             }
-            when { branch 'master' }
+            when { branch 'main' }
         }
         stage('Run kube-score') {
             steps {
@@ -71,7 +71,7 @@ pipeline {
                 '''
                 }
             }
-            when { branch 'master' }
+            when { branch 'main' }
         }
         stage('Deploy CVS') {
             environment {
@@ -125,7 +125,7 @@ pipeline {
             }
             when { 
                 allOf {
-                    branch 'master'
+                    branch 'main'
                     environment name: 'deployApp', value: 'true'
                 }
             }
@@ -139,15 +139,15 @@ pipeline {
                     }
                 }
             }
-            when { branch 'master' }
+            when { branch 'main' }
         }
         stage('Run Tests') {
             steps {
-                build job: 'cessda.cvs.test/master', wait: false
+                build job: 'cessda.cvs.test/main', wait: false
             }
             when { 
                 allOf { 
-                    branch 'master'
+                    branch 'main'
                     environment name: 'cluster', value: 'development-cluster' 
                 } 
             }

@@ -8,7 +8,7 @@ image:
   repository: eu.gcr.io/cessda-prod/cvs-contentguide
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "master-latest"
+  tag: "main-latest"
 
 imagePullSecrets: []
 nameOverride: ""
